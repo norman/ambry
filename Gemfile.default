@@ -1,3 +1,5 @@
 source :rubygems
 
-gem "dumb_model", :path => File.expand_path("..", __FILE__)
+# gem "rails", :path => File.expand_path("../../rails", __FILE__)
+gem "ffaker"
+gem "mocha"

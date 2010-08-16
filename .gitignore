@@ -3,3 +3,4 @@ Gemfile
 Gemfile.lock
 doc
 pkg
+coverage
