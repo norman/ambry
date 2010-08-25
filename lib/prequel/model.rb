@@ -44,7 +44,7 @@ module Prequel
 
     def with_index(name, &block)
       mapper.indexes[name] or begin
-        mapper.indexes[name] = find(&block)
+        mapper.add_index(name, find(&block))
       end
     end
   end

@@ -29,8 +29,10 @@ module Prequel
       clear_indexes
     end
 
-    def adapter
-      Prequel.adapters[adapter_name]
+    def add_index(name, key_set)
+      @lock.synchronize do
+        @indexes[name] = key_set
+      end
     end
 
     def clear_indexes
