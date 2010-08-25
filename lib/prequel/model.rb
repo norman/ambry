@@ -42,9 +42,25 @@ module Prequel
       instance
     end
 
+    def key_set(keys)
+      KeySet.new(keys, mapper)
+    end
+
+    def model_proxy
+      Thread.current[:model_proxy] ||= ModelProxy.new(self.class)
+    end
+
+    def use(adapter_name)
+      self.mapper = Mapper.new(self, adapter_name)
+    end
+
     def with_index(name, &block)
       mapper.indexes[name] or begin
-        mapper.add_index(name, find(&block))
+        key_set = yield
+        unless key_set.is_a?(KeySet)
+          raise PrequelError, "Return value must be a key set"
+        end
+        mapper.add_index(name, key_set)
       end
     end
   end

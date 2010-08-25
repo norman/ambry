@@ -14,8 +14,8 @@ class Person
   attr_accessor :name, :email, :age
   attr_key :email
   def self.older_than(age)
-    with_index("older_than_#{age}") do |person|
-      person[:age] > age
+    with_index("older_than_#{age}") do
+      Person.find {|person| person[:age] > age}
     end
   end
 end
@@ -28,9 +28,9 @@ until Person.count == 500 do
     :age   => rand(100)
 end
 
-keys = Person.find.sort do |a, b|
+keys = Person.find.keys.sort do |a, b|
   rand(100) <=> rand(100)
-end[0,10].map {|a| a[:email]}
+end[0,10]
 
 Benchmark.bmbm do |x|
   x.report("Count records") do

@@ -7,14 +7,14 @@ class Person
   attr_key :email
 
   def self.stooges
-    with_index("stooges") do |person|
-      person[:email] =~ /3stooges.com/
+    with_index("stooges") do
+      find {|p| p[:email] =~ /3stooges.com/}
     end
   end
 
   def self.non_howards
-    with_index("non_howards") do |person|
-      person[:name] !~ /Howard/
+    with_index("non_howards") do
+      find {|p| p[:name] !~ /Howard/}
     end
   end
 end
