@@ -9,7 +9,7 @@ module Prequel
     extend Forwardable
     attr_accessor :adapter_name, :klass, :indexes
     def_delegators :hash, :clear, :delete
-    def_delegators :key_set, :count, :find, :find_by_key
+    def_delegators :key_set, :all, :count, :find, :find_by_key, :keys
 
     def initialize(klass, adapter_name = nil)
       @klass        = klass
@@ -32,14 +32,18 @@ module Prequel
       end
     end
 
-    def add_index(name, key_set)
+    def add_index(name, indexable)
       @lock.synchronize do
-        @indexes[name] = key_set
+        @indexes[name] = indexable
       end
     end
 
     def adapter
       Prequel.adapters[adapter_name]
+    end
+
+    def first(&block)
+      key_set.first(&block)
     end
 
     # Get an instance by key

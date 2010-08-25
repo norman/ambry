@@ -57,6 +57,12 @@ Benchmark.bmbm do |x|
     end
   end
 
+  x.report("Find records using proxy method") do
+    N.times do
+      Person.find {|p| p.email =~ /\.com/}
+    end
+  end
+
   x.report("Find records iterating on keys") do
     N.times do
       Person.find_by_key {|k| k =~ /\.com/}

@@ -42,8 +42,23 @@ class PrequelTest < Test::Unit::TestCase
     assert_equal "Prequel::KeySet", Person.find.class.to_s
   end
 
-  test "should find a model instance" do
+  test "should find a model instance by hash key" do
     assert_equal "moe@3stooges.com", Person.find {|p| p[:name] == "Moe Howard"}.keys.first
+  end
+
+  test "should find a model instance by method" do
+    assert_equal "moe@3stooges.com", Person.find {|p| p.name == "Moe Howard"}.keys.first
+  end
+
+  test "should raise error when accessing non existant method by proxy" do
+    assert_raise NoMethodError do
+      Person.find {|p| p.foobar == "Moe Howard"}
+    end
+  end
+
+  test "should sort entries" do
+    assert_equal "Curly Howard", Person.all.sort {|a, b| a[:name] <=> b[:name]}.first.name
+    assert_equal "Shemp Howard", Person.all.sort {|a, b| b[:name] <=> a[:name]}.first.name
   end
 
   test "should count model instances" do
