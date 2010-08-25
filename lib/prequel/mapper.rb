@@ -15,6 +15,7 @@ module Prequel
       @klass        = klass
       @adapter_name = adapter_name || Prequel.default_adapter_name
       @indexes      = {}
+      @lock         = Mutex.new
       adapter.db[klass.to_s] ||= {}
     end
 
@@ -25,8 +26,10 @@ module Prequel
 
     # Sets a hash by key
     def []=(key, value)
-      hash[key] = value.to_hash.freeze
-      clear_indexes
+      @lock.synchronize do
+        hash[key] = value.to_hash.freeze
+        @indexes = {}
+      end
     end
 
     def add_index(name, key_set)
@@ -35,8 +38,8 @@ module Prequel
       end
     end
 
-    def clear_indexes
-      indexes.clear
+    def adapter
+      Prequel.adapters[adapter_name]
     end
 
     # Get an instance by key
