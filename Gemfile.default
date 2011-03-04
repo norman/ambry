@@ -1,5 +1,0 @@
-source :rubygems
-
-# gem "rails", :path => File.expand_path("../../rails", __FILE__)
-gem "ffaker"
-gem "mocha"
