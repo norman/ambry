@@ -8,45 +8,32 @@ module Prequel
     extend ActiveSupport::Concern
 
     included do
-      extend  ActiveModel::Translation
-      include ActiveModel::Conversion
-      include ActiveModel::Validations
-      include ActiveModel::Serialization
-      include ActiveModel::Serializers::JSON
-      include ActiveModel::Serializers::Xml
-      extend  ActiveModel::Callbacks
-      define_model_callbacks :save, :destroy
+      extend ActiveModel::Naming
+      # extend  ActiveModel::Translation
+      # include ActiveModel::Validations
+      # include ActiveModel::Serialization
+      # include ActiveModel::Serializers::JSON
+      # include ActiveModel::Serializers::Xml
+      # extend  ActiveModel::Callbacks
+      # define_model_callbacks :save, :destroy
     end
 
-    def save(*args)
-      _run_save_callbacks { super }
+
+    def to_model
+      self
     end
 
-    def destroy(*args)
-      _run_destroy_callbacks { @destroyed = delete(*args) }
+    def to_key
+      [to_id]
     end
 
-    def attributes
-      @attributes or begin
-        @attributes = to_hash
-        @attributes.delete(:_class)
-        @attributes.keys.each do |key|
-          @attributes[key.to_s] = @attributes.delete(key)
-        end
-        @attributes
-      end
+    def to_param
+      to_id
     end
 
-    def persisted?
-      !! self.class.get(prequel_id)
+    def model_name
+      @_model_name ||= ActiveModel::Name.new(self)
     end
 
-    def new_record?
-      !! persisted?
-    end
-
-    def destroyed?
-      @destroyed
-    end
   end
 end

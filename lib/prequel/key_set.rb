@@ -7,11 +7,11 @@ module Prequel
     extend Forwardable
 
     attr_accessor :keys, :mapper
-    def_delegators :keys, :<<, :empty?, :size
+    def_delegators :keys, :empty?, :size
     def_delegator :mapper, :klass
 
     def initialize(keys = nil, mapper = nil)
-      @keys   = (keys || []).freeze
+      @keys   = (keys || []).uniq.compact.freeze
       @mapper = mapper
     end
 

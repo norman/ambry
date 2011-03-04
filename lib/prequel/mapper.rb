@@ -59,9 +59,9 @@ module Prequel
       adapter.key_set(self)
     end
 
-    # Sets an instance, invoking its to_key method
+    # Sets an instance, invoking its to_id method
     def put(instance)
-      self[instance.to_key] = instance
+      self[instance.to_id] = instance
       instance
     end
   end

@@ -12,9 +12,11 @@ Gem::Specification.new do |s|
   s.summary           = "An ActiveModel-compatible ORM-like library for storing model instances in an in-memory Hash."
   s.test_files        = Dir.glob "test/**/*_test.rb"
   s.version           = Prequel::Version::STRING
-
   s.description       = <<-EOD
     An ActiveModel-compatible ORM-like library for storing model instances in
     an in-memory Hash, intended for smallish amounts of mostly read-only data.
   EOD
+  s.add_development_dependency "ffaker"
+  s.add_development_dependency "mocha"
 end
+

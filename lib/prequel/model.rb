@@ -96,7 +96,7 @@ module Prequel
       return unless attributes
       attributes.each do |key, value|
         key = key.to_sym
-        @attributes[key] = value if self.class.attribute_names.include?(key)
+        send("#{key}=", value) if self.class.attribute_names.include?(key)
       end
     end
 
@@ -106,7 +106,7 @@ module Prequel
       end
     end
 
-    def to_key
+    def to_id
       send self.class.key_method
     end
 
