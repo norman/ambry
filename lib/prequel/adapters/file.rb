@@ -1,5 +1,3 @@
-require "thread"
-
 module Prequel
   module Adapters
     # Loads and saves hash database from a Marshal.dump file.

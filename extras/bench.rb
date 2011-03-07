@@ -1,25 +1,24 @@
-$LOAD_PATH << File.expand_path("../../lib", __FILE__)
-$LOAD_PATH.uniq!
 require "rubygems"
-require "benchmark"
 require "bundler/setup"
+require "benchmark"
 require "ffaker"
 require "prequel"
 
 N = 1000
 
-Prequel::Adapter.new(:name => :main)
+Prequel::Adapter.new
+
 class Person
   extend Prequel::Model
-  attr_accessor :name, :email, :age
-  attr_key :email
+  use :main
+  attr_accessor :email, :name, :age
+
   def self.older_than(age)
     with_index("older_than_#{age}") do
       Person.find {|person| person[:age] > age}
     end
   end
 end
-Person.mapper = Prequel::Mapper.new(Person, :main)
 
 until Person.count == 500 do
   Person.create \

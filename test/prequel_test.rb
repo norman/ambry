@@ -4,7 +4,7 @@ require "prequel/adapters/yaml"
 class Person
   extend Prequel::Model
   attr_accessor :name, :email
-  attr_key :email
+  attr_id :email
 
   def self.stooges
     with_index("stooges") do

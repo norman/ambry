@@ -1,5 +1,3 @@
-require "forwardable"
-
 module Prequel
 
   module Model
@@ -12,45 +10,16 @@ module Prequel
     end
   end
 
-  # Wrapper around hash instances that allows values to be accessed as symbols,
-  # strings or method invocations. It behaves similary to OpenStruct, with the
-  # fundamental difference being that you instantiate *one* HashProxy instance
-  # and reassign its Hash during a loop in order to avoid creating garbage.
-  class HashProxy
-    attr :hash
-
-    def method_missing(symbol, *args, &block)
-      hash[symbol] or begin
-        raise NoMethodError unless hash.has_key?(symbol)
-      end
-    end
-
-    def [](value)
-      hash[value.to_sym] or hash[value.to_s]
-    end
-
-    def clear
-      @hash = nil
-    end
-
-    def using(hash)
-      @hash = hash
-      self
-    end
-
-    def with(hash, &block)
-      yield using hash ensure clear
-    end
-  end
-
   module ModelClassMethods
     extend Forwardable
-    attr_accessor :attribute_names, :key_method, :mapper
+    attr_accessor :attribute_names, :id_method, :mapper
     def_delegators :mapper, :[], :[]=, :all, :first, :get, :count, :find, :find_by_key, :keys
-    alias attr_key key_method=
+    alias attr_id id_method=
 
     def attr_accessor(*names)
       names.each do |name|
+        # First attribute added is the default id
+        attr_id name if attribute_names.empty?
         attribute_names << name
         class_eval(<<-EOM, __FILE__, __LINE__ + 1)
           def #{name}
@@ -107,7 +76,7 @@ module Prequel
     end
 
     def to_id
-      send self.class.key_method
+      send self.class.id_method
     end
 
     def save

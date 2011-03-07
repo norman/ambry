@@ -22,7 +22,7 @@ key is unique.
     class Person
       extend Prequel::Model
       attr_accessor :name, :email
-      attr_key :email
+      attr_id :email
     end
 
 In your application, create a adapter somewhere at startup. For Rails, this could

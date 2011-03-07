@@ -26,7 +26,7 @@ class AdapterTest < Test::Unit::TestCase
     end
   end
 
-  test "should load an set an empty hash as the db on initialization" do
+  test "should load and set an empty hash as the db on initialization" do
     assert_equal Hash.new, Prequel::Adapter.new.db
   end
 

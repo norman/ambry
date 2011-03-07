@@ -1,10 +1,8 @@
-require "forwardable"
-
 module Prequel
 
   # Mappers provide the middle ground between models and adapters. Mappers are
-  # responsible for performing finds and moving objects in an out of the
-  # database.
+  # responsible for performing finds and moving objects in and out of the
+  # "database."
   class Mapper
     extend Forwardable
     attr_accessor :adapter_name, :klass, :indexes
