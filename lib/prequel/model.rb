@@ -63,9 +63,9 @@ module Prequel
     def initialize(attributes)
       @attributes = {}
       return unless attributes
-      attributes.each do |key, value|
-        key = key.to_sym
-        send("#{key}=", value) if self.class.attribute_names.include?(key)
+      self.class.attribute_names.each do |name|
+        value = attributes[name] || attributes[name.to_s]
+        send("#{name}=", value) if value
       end
     end
 
