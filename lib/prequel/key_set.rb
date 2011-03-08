@@ -9,7 +9,14 @@ module Prequel
     def_delegator :mapper, :klass
 
     def initialize(keys = nil, mapper = nil)
-      @keys   = (keys || []).uniq.compact.freeze
+      @keys = keys || []
+      # Assume that if a frozen array is passed in, it's already been compacted
+      # and uniqued in order to improve performance.
+      unless @keys.frozen?
+        @keys.uniq!
+        @keys.compact!
+        @keys.freeze
+      end
       @mapper = mapper
     end
 
