@@ -3,8 +3,7 @@ require "prequel/adapters/yaml"
 
 class Person
   extend Prequel::Model
-  attr_accessor :name, :email
-  attr_id :email
+  attr_accessor :email, :name
 
   def self.stooges
     with_index("stooges") do
@@ -22,24 +21,28 @@ end
 class PrequelTest < Test::Unit::TestCase
 
   def setup
-    Prequel.adapters = {}
-    @path            = File.expand_path("../fixtures.yml", __FILE__)
-    @adapter         = Prequel::Adapters::YAML.new(:name => :main, :file => @path)
-    @mapper          = Prequel::Mapper.new(Person, :main)
-    Person.mapper    = @mapper
+    Prequel.adapters.clear
+    Prequel::Adapters::YAML.new \
+      :name => :main,
+      :file => File.expand_path("../fixtures.yml", __FILE__)
+    Person.use :main
   end
 
   test "should store a model instance in the database" do
-    assert Person.create(:name => "Curly Joe DeRita", :email => "curlyjoe@3stooges.com")
+    assert Person.create \
+      :name  => "Curly Joe DeRita",
+      :email => "curlyjoe@3stooges.com"
   end
 
   test "should get a model instance by key" do
-    assert Person.create(:name => "Curly Joe DeRita", :email => "curlyjoe@3stooges.com")
+    assert Person.create \
+      :name  => "Curly Joe DeRita",
+      :email => "curlyjoe@3stooges.com"
     assert_equal "Curly Joe DeRita", Person.get("curlyjoe@3stooges.com").name
   end
 
   test "find should return an instance of key set" do
-    assert_equal "Prequel::KeySet", Person.find.class.to_s
+    assert_equal Prequel::KeySet, Person.find.class
   end
 
   test "should find a model instance by hash key" do
@@ -66,7 +69,9 @@ class PrequelTest < Test::Unit::TestCase
   end
 
   test "should use indexes" do
-    Person.create(:name => "Ted Healy", :email => "ted@healy.com")
+    Person.create \
+      :name  => "Ted Healy",
+      :email => "ted@healy.com"
 
     assert Person.stooges.keys.include?("moe@3stooges.com")
     assert Person.stooges.keys.include?("larry@3stooges.com")
