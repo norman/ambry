@@ -16,11 +16,14 @@ Prequel offers a middle ground: it makes use of Ruby's Enumerable module to
 expose a powerful, ORM-like query interface to Ruby's Hash, and allows you to
 persist your model data in a file.
 
-Prequel keeps your entire dataset in memory. It's not a "NoSQL", it's a "NoDB".
-There's not only no schema or migrations to set up, there also no server or
-anything else to install since its only dependencies are Ruby's standard
-library. But just a word of warning - don't even dare think about using it for
-more than a couple megabytes of data. For that you need a real database, like
+Prequel loads your dataset from the file and keeps it in memory. It's not a
+"NoSQL", it's a "NoDB". There's not only no schema or migrations to set up,
+there's also no server or anything else to install since its only dependencies are
+Ruby's standard library. It was inspired in part by
+[Rubinius's](http://rubini.us/) short but meaningful tagline "Use Ruby."
+
+But just a word of warning - don't even dare think about using it for more than
+a couple megabytes of data. For that you need a real database of some sort, like
 Postgres, MySQL, Redis, Mongo, etc.
 
 ## A Brief Example
@@ -36,25 +39,24 @@ Initialize Prequel by instantiating an adapter. For Rails, this could go in a
 Setting up a class with PrequelModel is simple: just extend the module, and
 declare your persistable fields with `attr_accessor`. The first field declared
 will be behave as the "primary key," and it's up to you to ensure that it's
-unique. Tell Prequel which adapter to use, which by default is named `:main`.
+unique.
 
     class Person
       extend Prequel::Model
       attr_accessor :name, :email
-      use :main
     end
 
 
-Build your "database" in a seed script and treat Prequel models as read-only in
-your application.
+Build your "database" in a seed script and then treat Prequel models as
+read-only in your application.
 
     Person.create :name => "Moe Howard", :email => "moe@3stooges.com"
     Person.create :name => "Larry Fine", :email => "larry@3stooges.com"
     adapter.save_database
 
-If you're using YAML, you could also just edit the "database" directly, though
-a seed script offers more portability if you later decide to conver your models
-to another ORM.
+If you're using YAML, you could also just edit the "database" directly, though a
+seed script offers more ease of use, and flexibility if you later decide to
+convert your models to another ORM.
 
     ---
     Person:
@@ -80,64 +82,67 @@ You can get a model instance by key with the `get` method:
 
     @moe = Person.get "moe@3stooges.com"
 
-Searching is done via simple blocks. This is very fast for the small datasets
-that Prequel is designed for. You can treat the block argument similarly to an
-OpenStruct, in that it you can access attributes as symbols, strings or method
-names. Symbols perform best.
+Searching and sorting are done via blocks. This is very fast for the small
+datasets that Prequel is designed for. You can treat the block argument
+similarly to an OpenStruct, accessing attributes as symbols, strings or method
+names.
 
-    @larry   = Person.first {|p| p[:name] =~ /Larry/}
+    @larry = Person.first {|p| p[:name] =~ /Larry/}
+    @curly = Person.first {|p| p.email =~ /curly/ && p.name =~ /Howard/}
+
+Perhaps counterintuitively, the results of finds are not arrays of instances,
+but rather sets of keys:
+
+    # This will be an instance of Prequel::KeySet
     @stooges = Person.find {|p| p["email"] =~ /stooge/}
-    @curly   = Person.find {|p| p.email =~ /curly/ && p.name =~ /Howard/}
 
-The results of finds are sets of keys. This makes Prequel fast and lets you
-create relations and chainable filters via model class methods:
+    # This will be an array of Person instances
+    @stooges = Person.find {|p| p["email"] =~ /stooge/}.instances
+
+    # Iterate via instances
+    Person.find {|p| p["email"] =~ /stooge/}.each_instance do |stooge|
+      p stooge.name
+    end
+
+This makes Prequel fast by avoiding the creation of unused instances, and lets
+you create chainable filters via model class methods:
 
     class Country
       extend Prequel::Model
       attr_accessor :tld, :name, :population, :region
+      use :main
 
       def self.african
         find {|p| p.region == :africa}
       end
 
-      def self.with_population(num)
-        find {|p| p.population >= num}
+      def self.european
+        find {|p| p.region == :europe}
       end
 
-      def self.starting_with(letter)
-        find {|p| p.name =~ /\A#{letter}/i}
-      end
-
-      # One-to-many ("has_many") relation
-      def regions
-        Region.find {|region| region[:tld] == tld}
+      def self.population(op, num)
+        find {|p| p.population.send(op, num)}.sort {|a, b| b.population <=> a.population}
       end
     end
 
-    class Region
-      extend Prequel::Model
-      attr_accessor :tld_plus_name, :tld, :name, :capital
+    african_countries              = Country.african
+    bigger_countries               = Country.population(:>=, 50_000_000)
+    smaller_countries              = Country.population(:<=, 5_000_000)
+    european_countries             = Country.european
+    bigger_african_countries       = Country.african.population(:>=, 50_000_000)
 
-      def tld_plus_name
-        "#{tld}:#{name}"
-      end
+It also lets you do set operations on the key sets themselves:
 
-      # Many-to-one ("belongs_to") relation
-      def country
-        Country.get(tld)
-      end
-    end
+    bigger_non_african_countries   = bigger_countries  - african_countries
+    bigger_or_european_countries   = bigger_countries  | european_countries
+    smaller_and_european_countries = smaller_countries + european_countries
+    smaller_european_countries     = smaller_countries & european_countries
 
-    # Get populous African countries whose names start with "N" and print their
-    # name and regions.
-    Country.african.with_population(75_000_000).starting_with("N").each do |c|
-      puts "#{c.name} has #{c.regions.count} regions"
-    end
 
-## Active Model
+### Active Model
 
 Prequel has full Active Model support. Simply include `Prequel::ActiveModel` to
-make your model behave like Active Record:
+make your model behave like Active Record.
 
     class Country
       extend Prequel::Model
@@ -153,7 +158,7 @@ make your model behave like Active Record:
 
       before_save :set_slug
 
-      # Use Babosa for slugging (http://github.com/norman/babosa)
+      # Use Babosa for slugging - http://github.com/norman/babosa
       def set_slug
         @slug = name.to_slug.normalize.to_s
       end

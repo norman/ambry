@@ -11,7 +11,7 @@ class MapperTest < Test::Unit::TestCase
   end
 
   def teardown
-    Prequel.adapters = {}
+    Prequel.adapters.clear
   end
 
   test "should set default adapter name if unspecified" do

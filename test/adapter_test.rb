@@ -10,12 +10,12 @@ class AdapterTest < Test::Unit::TestCase
     Prequel.adapters = {}
   end
 
-  test "should register adapter open creation" do
+  test "should register adapter upon creation" do
     Prequel.expects(:register_adapter)
     assert Prequel::Adapter.new(:name => "test_adapter")
   end
 
-  test "should assign self a default name if none given" do
+  test "should assign a default name to itself if none given" do
     assert_equal Prequel.default_adapter_name, Prequel::Adapter.new.name
   end
 

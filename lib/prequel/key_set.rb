@@ -8,6 +8,7 @@ module Prequel
     def_delegators :keys, :empty?, :size
     def_delegator :mapper, :klass
 
+    # Create a new KeySet from an array of keys and a mapper.
     def initialize(keys = nil, mapper = nil)
       @keys = keys || []
       # Assume that if a frozen array is passed in, it's already been compacted
@@ -20,8 +21,9 @@ module Prequel
       @mapper = mapper
     end
 
+    # Look for a class method in the model class to use as a chainable filter.
     def method_missing(symbol, *args, &block)
-      if klass.respond_to?(symbol )
+      if klass.respond_to?(symbol)
         self.class.new(keys & klass.send(symbol, *args, &block).keys, @mapper)
       else
         raise NoMethodError.new("undefined method `%s' for %s:%s" % [symbol, self.to_s, self.class.to_s])
@@ -34,8 +36,17 @@ module Prequel
       end
     end
 
+    # Count the keys. With no block, the total number of keys is given. If a
+    # block is passed, it behaves like #find but returns a number rather than a
+    # KeySet.
+    # @example
+    #     Person.count {|p| p.first_name == "Joe"}
     def count(&block)
-      block_given? ? super : size
+      return size unless block_given?
+      proxy = HashProxy.new(klass)
+      keys.inject(0) do |count, key|
+        proxy.with(@mapper[key], &block) ? count + 1 : count
+      end
     end
 
     # Iterate over the mapper's raw attribute Hash associated with each key.

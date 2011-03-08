@@ -36,11 +36,7 @@ module Prequel
   # Raised when a single instance is expected but could not be found.
   class NotFoundError < PrequelError
     def initialize(*args)
-      if args.size == 1
-        super('Could not find %s' % args)
-      else
-        super('Could not find %s with key "%s"' % args)
-      end
+      super('Could not find %s with key "%s"' % args)
     end
   end
 

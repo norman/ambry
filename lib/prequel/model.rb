@@ -13,14 +13,14 @@ module Prequel
   module ModelClassMethods
     extend Forwardable
     attr_accessor :attribute_names, :id_method, :mapper
-    def_delegators :mapper, :[], :[]=, :all, :first, :get, :count, :find, :find_by_key, :keys
+    def_delegators :mapper, :[], :[]=, :all, :delete, :first, :get, :count, :find, :find_by_key, :keys
     alias attr_id id_method=
 
     def attr_accessor(*names)
       names.each do |name|
         # First attribute added is the default id
         attr_id name if attribute_names.empty?
-        attribute_names << name
+        attribute_names << name.to_sym
         class_eval(<<-EOM, __FILE__, __LINE__ + 1)
           def #{name}
             @#{name} or (@attributes[:#{name}] if @attributes)
@@ -47,6 +47,10 @@ module Prequel
       KeySet.new(keys, mapper)
     end
 
+    def mapper
+      @mapper or use Prequel.default_adapter_name
+    end
+
     def use(adapter_name)
       self.mapper = Mapper.new(self, adapter_name)
     end
@@ -69,6 +73,10 @@ module Prequel
       end
     end
 
+    def ==(instance)
+      self.class == instance.class && to_id == instance.to_id
+    end
+
     def to_hash
       self.class.attribute_names.inject({}) do |hash, key|
         hash[key] = self.send(key); hash
@@ -83,8 +91,5 @@ module Prequel
       self.class.mapper.put(self)
     end
 
-    def with_index(name, &block)
-      self.class.with_index(name, &block)
-    end
   end
 end

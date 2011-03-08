@@ -18,5 +18,6 @@ Gem::Specification.new do |s|
   EOD
   s.add_development_dependency "ffaker"
   s.add_development_dependency "mocha"
+  s.add_development_dependency "simplecov"
 end
 

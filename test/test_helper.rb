@@ -1,5 +1,7 @@
 require "rubygems"
 require "bundler/setup"
+require 'simplecov'
+SimpleCov.start
 require "test/unit"
 require "prequel"
 require "mocha"
