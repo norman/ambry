@@ -31,16 +31,19 @@ module Prequel
       block_given? ? super : size
     end
 
+    # Iterate over the mapper's raw attribute Hash associated with each key.
     def each(&block)
-      keys.each do |key|
-        yield(@mapper[key])
-      end
+      keys.each {|key| yield @mapper[key]}
     end
 
+    # Iterate over keys. This is the fastest way to iterate, but offers the
+    # least flexibility.
     def each_key(&block)
       keys.each {|key| yield key}
     end
 
+    # Iterate over model instances associated with each key. This is the slowest
+    # way to iterate, but allows for the most flexible searching.
     def each_instance(&block)
       keys.each {|key| yield @mapper.get(key)}
     end

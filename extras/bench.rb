@@ -32,6 +32,9 @@ keys = Person.find.keys.sort do |a, b|
 end[0,10]
 
 Benchmark.bmbm do |x|
+
+  puts "Benchmarking #{N} times:\n\n"
+
   x.report("Count records") do
     N.times do
       Person.count {|p| p[:email] =~ /\.com/}
