@@ -3,26 +3,31 @@ require "rake/testtask"
 require "rake/gempackagetask"
 require "rake/clean"
 
-task :default => :test
+task :default => :spec
+task :test => :spec
 
-CLEAN << "pkg" << "doc" << "coverage" << ".yardoc"
-Rake::GemPackageTask.new(eval(File.read("prequel.gemspec"))) { |pkg| }
-Rake::TestTask.new(:test) { |t| t.pattern = "test/**/*_test.rb" }
+CLEAN << %w[pkg doc coverage .yardoc]
+
+begin
+  desc "Run SimpleCov"
+  task :coverage do
+    ENV["coverage"] = "true"
+    Rake::Task["spec"].execute
+  end
+rescue LoadError
+end
+
+gemspec = File.expand_path("../prequel.gemspec", __FILE__)
+if File.exist? gemspec
+  Rake::GemPackageTask.new(eval(File.read(gemspec))) { |pkg| }
+end
+
+Rake::TestTask.new(:spec) { |t| t.pattern = "spec/**/*_spec.rb" }
 
 begin
   require "yard"
   YARD::Rake::YardocTask.new do |t|
     t.options = ["--output-dir=doc"]
-  end
-rescue LoadError
-end
-
-begin
-  require "rcov/rcovtask"
-  Rcov::RcovTask.new do |r|
-    r.test_files = FileList["test/**/*_test.rb"]
-    r.verbose = true
-    r.rcov_opts << "--exclude rails/* --exclude gems/*"
   end
 rescue LoadError
 end

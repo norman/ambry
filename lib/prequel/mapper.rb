@@ -2,12 +2,12 @@ module Prequel
 
   # Mappers provide the middle ground between models and adapters. Mappers are
   # responsible for performing finds and moving objects in and out of the
-  # "database."
+  # hash.
   class Mapper
     extend Forwardable
     attr_accessor :adapter_name, :klass, :indexes
     def_delegators :hash, :clear, :delete
-    def_delegators :key_set, :all, :count, :find, :find_by_key, :keys
+    def_delegators :key_set, :all, :count, :find, :find_by_key, :first, :keys
 
     def initialize(klass, adapter_name = nil)
       @klass        = klass
@@ -25,8 +25,8 @@ module Prequel
     # Sets a hash by key
     def []=(key, value)
       @lock.synchronize do
-        hash[key] = value.to_hash.freeze
         @indexes = {}
+        hash[key] = value.to_hash.freeze
       end
     end
 
@@ -40,13 +40,9 @@ module Prequel
       Prequel.adapters[adapter_name]
     end
 
-    def first(&block)
-      key_set.first(&block)
-    end
-
     # Get an instance by key
     def get(key)
-      klass.from_hash self[key]
+      klass.send :from_hash, self[key]
     end
 
     def hash
@@ -60,7 +56,6 @@ module Prequel
     # Sets an instance, invoking its to_id method
     def put(instance)
       self[instance.to_id] = instance
-      instance
     end
   end
 end

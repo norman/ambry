@@ -4,16 +4,16 @@ module Prequel
     def self.extended(base)
       base.instance_eval do
         @attribute_names = []
+        include Comparable
         include ModelInstanceMethods
         extend  ModelClassMethods
+        extend  ModelDSLMethods
       end
     end
   end
 
-  module ModelClassMethods
-    extend Forwardable
-    attr_accessor :attribute_names, :id_method, :mapper
-    def_delegators :mapper, :[], :[]=, :all, :delete, :first, :get, :count, :find, :find_by_key, :keys
+  module ModelDSLMethods
+    attr_accessor :id_method
     alias attr_id id_method=
 
     def attr_accessor(*names)
@@ -33,26 +33,8 @@ module Prequel
       end
     end
 
-    def create(hash)
-      new(hash).save
-    end
-
-    def from_hash(hash)
-      instance = allocate
-      instance.instance_variable_set :@attributes, hash
-      instance
-    end
-
-    def key_set(keys)
-      KeySet.new(keys, mapper)
-    end
-
-    def mapper
-      @mapper or use Prequel.default_adapter_name
-    end
-
     def use(adapter_name)
-      self.mapper = Mapper.new(self, adapter_name)
+      @mapper = Mapper.new(self, adapter_name)
     end
 
     def with_index(name, &block)
@@ -63,18 +45,54 @@ module Prequel
     end
   end
 
-  module ModelInstanceMethods
-    def initialize(attributes)
-      @attributes = {}
-      return unless attributes
-      self.class.attribute_names.each do |name|
-        value = attributes[name] || attributes[name.to_s]
-        send("#{name}=", value) if value
-      end
+  module ModelClassMethods
+    extend Forwardable
+    attr_accessor :attribute_names, :mapper
+    def_delegators *[:find, Enumerable.public_instance_methods(false)].flatten
+    def_delegators :mapper, :[], :all, :delete, :first, :get, :count, :find, :find_by_key, :keys
+
+    def create(hash)
+      new(hash).save
     end
 
-    def ==(instance)
-      self.class == instance.class && to_id == instance.to_id
+    # The point of this method is to provide a fast way to get model instances
+    # based on the hash attributes managed by the mapper and adapter.
+    #
+    # The hash arg gets frozen, which can be a nasty side-effect, but helps
+    # avoid hard-to-track-down bugs if the hash is updated somewhere outside
+    # the model. This should only be used internally to Prequel, which is why
+    # it's private.
+    def from_hash(hash)
+      instance = allocate
+      instance.instance_variable_set :@attributes, hash.freeze
+      instance
+    end
+    private :from_hash
+
+    def mapper
+      @mapper or use Prequel.default_adapter_name
+    end
+
+  end
+
+  module ModelInstanceMethods
+    def initialize(attributes = nil, &block)
+      @attributes = {}.freeze
+
+      return unless attributes || block_given?
+
+      if attributes
+        self.class.attribute_names.each do |name|
+          value = attributes[name] || attributes[name.to_s]
+          send("#{name}=", value) if value
+        end
+      end
+
+      yield(self) if block_given?
+    end
+
+    def <=>(instance)
+      to_id <=> instance.to_id if instance.kind_of? self.class
     end
 
     def to_hash
@@ -90,6 +108,5 @@ module Prequel
     def save
       self.class.mapper.put(self)
     end
-
   end
 end

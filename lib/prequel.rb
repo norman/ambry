@@ -27,19 +27,10 @@ module Prequel
   # Base error for Prequel.
   class PrequelError < StandardError ; end
 
-  # Raised by adapters
-  class AdapterError < PrequelError ; end
-
-  # Raised when trying to access data from the wrong class.
-  class BadClassError < PrequelError ; end
-
   # Raised when a single instance is expected but could not be found.
   class NotFoundError < PrequelError
     def initialize(*args)
       super('Could not find %s with key "%s"' % args)
     end
   end
-
-  # Raised when attempting to instantiate a model instance with an empty hash.
-  class EmptyDataError < PrequelError ; end
 end

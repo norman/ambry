@@ -1,9 +1,10 @@
 module Prequel
 
-  # Adapters are responsible for moving objects in and out of the database and
-  # for presenting a hash-like interface to the mappers.
+  # Adapters are responsible for persisting the database. This base adapter
+  # offers no persistence, all IO operations are just stubs. Adapters must also
+  # present the full database as a Hash to the mapper by providing a key_set
+  # method that returns an instance of Prequel::Key set with all keys.
   class Adapter
-    include Enumerable
 
     attr_reader :name
     attr_reader :db

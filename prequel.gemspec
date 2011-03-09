@@ -17,7 +17,6 @@ Gem::Specification.new do |s|
     an in-memory Hash, intended for smallish amounts of mostly read-only data.
   EOD
   s.add_development_dependency "ffaker"
+  s.add_development_dependency "minitest"
   s.add_development_dependency "mocha"
-  s.add_development_dependency "simplecov"
 end
-

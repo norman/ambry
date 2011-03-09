@@ -4,7 +4,7 @@ require "benchmark"
 require "ffaker"
 require "prequel"
 
-N = 1000
+N = 100
 
 Prequel::Adapter.new
 
@@ -20,14 +20,14 @@ class Person
   end
 end
 
-until Person.count == 500 do
+until Person.count == 1000 do
   Person.create \
     :name  => Faker::Name.name,
     :email => Faker::Internet.email,
     :age   => rand(100)
 end
 
-keys = Person.find.keys.sort do |a, b|
+keys = Person.all.keys.sort do |a, b|
   rand(100) <=> rand(100)
 end[0,10]
 

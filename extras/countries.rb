@@ -45,14 +45,14 @@ end
 @european_countries             = Country.european
 @bigger_african_countries       = Country.african.population(:>=, 50_000_000)
 @bigger_non_african_countries   = @bigger_countries - @african_countries
-@bigger_or_european_countries   = @bigger_countries | @european_countries
-@smaller_and_european_countries = @smaller_countries + @european_countries
+@bigger_or_european_countries   = @bigger_countries + @european_countries
+@smaller_or_european_countries  = @smaller_countries + @european_countries
 @smaller_european_countries     = @smaller_countries & @european_countries
 
 instance_variables.each do |name|
   puts "%s: %s" % [
     name.to_s.gsub("_", " ").gsub("@", ""),
-    instance_variable_get(name).instances.map(&:name).join(", ")
+    instance_variable_get(name).all.map(&:name).join(", ")
   ]
 end
 
