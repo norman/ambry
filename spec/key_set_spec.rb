@@ -69,13 +69,13 @@ describe Prequel::KeySet do
     it "should be chainable" do
       assert_equal "Larry Fine", Person.stooges.non_howards.first.name
     end
-    
+
     it "should raise error when trying to chain nonexistant method" do
       assert_raises NoMethodError do
         Person.stooges.foobar
       end
     end
-    
+
   end
 
   describe "#find_by_key" do

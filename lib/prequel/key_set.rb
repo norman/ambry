@@ -51,7 +51,7 @@ module Prequel
     # number of elements yielding a true value.
     def count(&block)
       return keys.count unless block_given?
-      proxy = HashProxy.new(mapper.klass)
+      proxy = HashProxy.new
       keys.inject(0) do |count, key|
         proxy.with(mapper[key], &block) ? count.succ : count
       end
@@ -59,7 +59,7 @@ module Prequel
 
     def find(&block)
       return self unless block_given?
-      proxy = HashProxy.new(mapper.klass)
+      proxy = HashProxy.new
       self.class.new(keys.inject([]) do |found, key|
         found << key if proxy.with(mapper[key], &block)
         found
