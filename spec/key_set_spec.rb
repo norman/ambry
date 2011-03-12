@@ -90,7 +90,8 @@ describe Prequel::KeySet do
 
   describe "#sort" do
     it "should sort" do
-      assert_equal "clms", Person.find.sort {|a, b| a.name <=> b.name}.keys.map {|k| k[0]}.join
+      assert_equal "Curly Howard", Person.find.sort {|a, b| a.name <=> b.name}.first.name
+      assert_equal "Shemp Howard", Person.find.sort {|b, a| a.name <=> b.name}.first.name
     end
   end
 
