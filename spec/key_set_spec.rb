@@ -75,7 +75,6 @@ describe Prequel::KeySet do
         Person.stooges.foobar
       end
     end
-
   end
 
   describe "#find_by_key" do
