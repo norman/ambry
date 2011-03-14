@@ -177,9 +177,12 @@ A guide for Prequel is in the works, but for now you can read the API docs.
 
 ## Compatibility
 
+Prequel has been tested against these current Rubies, and is likely compatible
+with others. Note that 1.8.6 is not supported.
+
 * Ruby 1.8.7 - 1.9.2
-* Rubinius 1.0+
-* JRuby 1.5+
+* Rubinius 1.2.3
+* JRuby 1.5.6
 
 ## Author
 

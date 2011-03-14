@@ -5,16 +5,18 @@ module Prequel
   # hash.
   class Mapper
     extend Forwardable
-    attr_accessor :adapter_name, :klass, :indexes
+    attr :hash
+    attr_accessor :adapter_name, :klass, :indexes, :options
     def_delegators :hash, :clear, :delete
     def_delegators :key_set, :all, :count, :find, :find_by_key, :first, :keys
 
-    def initialize(klass, adapter_name = nil)
+    def initialize(klass, adapter_name = nil, options = {})
       @klass        = klass
       @adapter_name = adapter_name || Prequel.default_adapter_name
       @indexes      = {}
       @lock         = Mutex.new
-      adapter.db[klass.to_s] ||= {}
+      @options      = options
+      @hash         = adapter.db[klass.to_s] ||= {}
     end
 
     # Returns a hash
@@ -27,6 +29,7 @@ module Prequel
       @lock.synchronize do
         @indexes = {}
         hash[key] = value.to_hash.freeze
+        adapter.save_database if @options[:sync]
       end
     end
 
@@ -43,10 +46,6 @@ module Prequel
     # Get an instance by key
     def get(key)
       klass.send :from_hash, self[key]
-    end
-
-    def hash
-      adapter.db[klass.to_s]
     end
 
     def key_set

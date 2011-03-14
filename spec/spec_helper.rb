@@ -9,6 +9,7 @@ require "prequel/adapters/yaml"
 require 'minitest/spec'
 require "mocha"
 require "fileutils"
+require "ffaker"
 
 class Person
   extend Prequel::Model

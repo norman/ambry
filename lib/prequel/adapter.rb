@@ -16,6 +16,7 @@ module Prequel
     end
 
     def key_set(mapper)
+      @db[mapper.klass.to_s] ||= {}
       KeySet.new(@db[mapper.klass.to_s].keys, mapper)
     end
 

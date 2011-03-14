@@ -32,4 +32,23 @@ module Prequel
       yield using hash ensure clear
     end
   end
+
+  class HashProxySet
+
+    attr :proxies
+
+    def initialize
+      @proxies = []
+    end
+
+    def using(*args)
+      args.size.times { proxies.push HashProxy.new } if proxies.empty?
+      proxies.each_with_index {|p, i| p.using args[i] }
+    end
+
+    def clear
+      proxies.map(&:clear)
+    end
+  end
+
 end

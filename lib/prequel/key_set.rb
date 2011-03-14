@@ -78,14 +78,12 @@ module Prequel
     end
 
     def sort(&block)
-      proxy1 = HashProxy.new
-      proxy2 = HashProxy.new
+      proxies = HashProxySet.new
       self.class.new(@keys.sort do |a, b|
         begin
-          yield(proxy1.using(mapper[a]), proxy2.using(mapper[b]))
+          yield(*proxies.using(mapper[a], mapper[b]))
         ensure
-          proxy1.clear
-          proxy2.clear
+          proxies.clear
         end
       end, mapper)
     end
