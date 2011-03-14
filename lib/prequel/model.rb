@@ -3,6 +3,7 @@ module Prequel
   module Model
     def self.extended(base)
       base.instance_eval do
+        @lock = Mutex.new
         @attribute_names = []
         include Comparable
         include ModelInstanceMethods
@@ -33,8 +34,9 @@ module Prequel
       end
     end
 
-    def use(adapter_name)
-      @mapper = Mapper.new(self, adapter_name)
+    def use(adapter_name, options = {})
+      @adapter_name   = adapter_name
+      @mapper_options = options
     end
 
     def with_index(name, &block)
@@ -70,9 +72,12 @@ module Prequel
     private :from_hash
 
     def mapper
-      @mapper or use Prequel.default_adapter_name
+      @mapper or @lock.synchronize do
+        name      = @adapter_name || Prequel.default_adapter_name
+        options   = @mapper_options || {}
+        @mapper ||= Mapper.new(self, name, options)
+      end
     end
-
   end
 
   module ModelInstanceMethods

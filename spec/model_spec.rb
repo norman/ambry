@@ -47,10 +47,9 @@ describe Prequel::Model do
   end
 
   describe ".mapper" do
-    it "invokes .use if there is a mapper is not set" do
-      Person.expects(:use)
+    it "lazy-loads mapper if it's not set" do
       Person.instance_variable_set :@mapper, nil
-      Person.mapper
+      assert Person.mapper
     end
   end
 
