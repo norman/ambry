@@ -112,6 +112,14 @@ module Prequel
         self.class.mapper.put(self)
       end
 
+      def update_attributes(attributes)
+        self.class.attribute_names.each do |name|
+          value = attributes[name] || attributes[name.to_s]
+          send("#{name}=", value) if value
+        end
+        save
+      end
+
       def delete
         self.class.delete(self.to_id)
       end

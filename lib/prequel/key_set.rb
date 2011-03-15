@@ -57,7 +57,8 @@ module Prequel
       end
     end
 
-    def find(&block)
+    def find(id = nil, &block)
+      return mapper.get(id) if id
       return self unless block_given?
       proxy = HashProxy.new
       self.class.new(keys.inject([]) do |found, key|
