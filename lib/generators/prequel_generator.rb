@@ -7,6 +7,7 @@ class PrequelGenerator < Rails::Generators::Base
     initializer("prequel.rb") do
       <<-EOI
 require "prequel/adapters/yaml"
+require "prequel/active_model"
 Prequel::Adapters::YAML.new :file => Rails.root.join('db', 'prequel.yml')
       EOI
     end
