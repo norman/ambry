@@ -28,8 +28,9 @@ module Prequel
     def []=(key, value)
       @lock.synchronize do
         @indexes = {}
-        hash[key] = value.to_hash.freeze
+        saved = hash[key] = value.to_hash.freeze
         adapter.save_database if @options[:sync]
+        saved
       end
     end
 

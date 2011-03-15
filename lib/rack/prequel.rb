@@ -1,6 +1,9 @@
 require "rack/contrib"
 
 module Rack
+  # Rack::Prequel is a middleware that allows you to store a Prequel datbase
+  # in a cookie.
+  # @see Prequel::Adapters::Cookie
   class Prequel
     def initialize(app, options = {})
       @app     = app

@@ -4,6 +4,14 @@ require "zlib"
 
 module Prequel
   module Adapters
+
+    # Prequel's cookie adapter allows you to store a Prequel database inside
+    # a zipped and signed string suitable for setting as a cookie. This can be
+    # useful for modelling things like basic shopping carts or form wizards.
+    # Keep in mind the data is signed, so it can't be tampered with. However,
+    # the data is not *encrypted*, so somebody that wanted to could unzip and
+    # load the cookie data to see what's inside. So don't send this data
+    # client-side if it's at all sensitive.
     class Cookie < Adapter
 
       attr :verifier
