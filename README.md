@@ -29,31 +29,39 @@ Postgres, MySQL, Redis, Mongo, etc.
 
 ## A Brief Example
 
-### Setup
+### Setup for Rails
 
-Initialize Prequel by instantiating an adapter. For Rails, this could go in a
-`config/initializers/prequel.rb`.
+Prequel comes with a Rails generator that sets up an initializer and a YAML
+database. Simple run:
 
+    rails generate prequel
+
+and it will add the following files:
+
+    # db/prequel.yml (a blank file)
+
+    # config/initializers/prequel.rb:
     require "prequel/adapters/yaml"
-    Prequel::Adapters::YAML.new(Rails.root.join("db", "prequel.yaml")
-
+    require "prequel/active_model"
+    Prequel::Adapters::YAML.new :file => Rails.root.join('db', 'prequel.yml')
 
 Setting up a class with PrequelModel is simple: just extend the module, and
 declare your persistable fields with the `field` method. The first field
 declared will be behave as the "primary key," and it's up to you to ensure that
 it's unique.
 
-    class Person
+    class Country
       extend Prequel::Model
-      field :name, :email
+      field :tld, :name
     end
 
 
-Build your "database" in a seed script and then treat Prequel models as
-read-only in your application.
+Seed your "database" in a seed script (for Rails this is db/seeds.rb) and then
+treat Prequel models as read-only in your application.
 
-    Person.create :name => "Moe Howard", :email => "moe@3stooges.com"
-    Person.create :name => "Larry Fine", :email => "larry@3stooges.com"
+    Country.create! :tld => "AR", :name => "Argentina"
+    Country.create! :tld => "CA", :name => "Canada"
+    Country.create! :tld => "JP", :name => "Japan"
     adapter.save_database
 
 
@@ -62,29 +70,23 @@ seed script offers more ease of use, and flexibility if you later decide to
 convert your models to another ORM.
 
     ---
-    Person:
-      moe@3stooges.com:
-          :name: Moe Howard
-          :email: moe@3stooges.com
-      shemp@3stooges.com:
-          :name: Shemp Howard
-          :email: shemp@3stooges.com
-      curly@3stooges.com:
-          :name: Curly Howard
-          :email: curly@3stooges.com
-      larry@3stooges.com:
-          :name: Larry Fine
-          :email: larry@3stooges.com
-      curlyjoe@3stooges.com:
-          :name: Joe DeRita
-          :email: curlyjoe@3stooges.com
+    Country:
+      AR:
+        :name: Argentina
+        :tld: AR
+      CA:
+        :name: Canada
+        :tld: CA
+      JP:
+        :name: Japan
+        :tld: JP
 
 
 ### Querying
 
 You can get a model instance by key with the `get` method:
 
-    @moe = Person.get "moe@3stooges.com"
+    @country = Person.get("AR")
 
 
 Searching and sorting are done via blocks. This is very fast for the small
@@ -139,8 +141,6 @@ make your model behave like Active Record.
     class Country
       extend Prequel::Model
       extend Prequel::ActiveModel
-
-      use :main
 
       field :tld, :name, :population
 
