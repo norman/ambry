@@ -13,12 +13,13 @@ Gem::Specification.new do |s|
   s.test_files        = Dir.glob "test/**/*_test.rb"
   s.version           = Prequel::Version::STRING
   s.description       = <<-EOD
-    An ActiveModel-compatible ORM-like library for storing model instances in
-    an in-memory Hash, intended for smallish amounts of mostly read-only data.
+    Prequel is a database and ORM replacement for (mostly) static models and
+    small datasets. It provides ActiveModel compatibility, and flexible
+    searching and storage.
   EOD
   s.add_development_dependency "ffaker"
   s.add_development_dependency "minitest"
   s.add_development_dependency "mocha"
-  s.add_development_dependency "activesupport"
-  s.add_development_dependency "activemodel"
+  s.add_development_dependency "activesupport", "~> 3.0"
+  s.add_development_dependency "activemodel", "~> 3.0"
 end

@@ -4,13 +4,12 @@ require "benchmark"
 require "ffaker"
 require "prequel"
 
-N = 100
+N = 500
 
 Prequel::Adapter.new
 
 class Person
   extend Prequel::Model
-  use :main
   field :email, :name, :age
 
   def self.older_than(age)

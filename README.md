@@ -18,9 +18,10 @@ persist your model data in a file.
 
 Prequel loads your dataset from the file and keeps it in memory. It's not a
 "NoSQL", it's a "NoDB". There's not only no schema or migrations to set up,
-there's also no server or anything else to install since its only dependencies are
-Ruby's standard library. It was inspired in part by
-[Rubinius's](http://rubini.us/) short but meaningful tagline "Use Ruby."
+there's also no server or anything else to install since its only dependencies
+are Ruby's standard library. Whenever possible, it behaves like the Ruby
+standard library as opposed to introducing quirky behavior. It was inspired in
+part by [Rubinius's](http://rubini.us/) short but meaningful tagline "Use Ruby."
 
 But just a word of warning - don't even dare think about using it for more than
 a couple megabytes of data. For that you need a real database of some sort, like
@@ -36,10 +37,11 @@ Initialize Prequel by instantiating an adapter. For Rails, this could go in a
     require "prequel/adapters/yaml"
     Prequel::Adapters::YAML.new(Rails.root.join("db", "prequel.yaml")
 
+
 Setting up a class with PrequelModel is simple: just extend the module, and
-declare your persistable fields with `field`. The first field declared
-will be behave as the "primary key," and it's up to you to ensure that it's
-unique.
+declare your persistable fields with the `field` method. The first field
+declared will be behave as the "primary key," and it's up to you to ensure that
+it's unique.
 
     class Person
       extend Prequel::Model
@@ -53,6 +55,7 @@ read-only in your application.
     Person.create :name => "Moe Howard", :email => "moe@3stooges.com"
     Person.create :name => "Larry Fine", :email => "larry@3stooges.com"
     adapter.save_database
+
 
 If you're using YAML, you could also just edit the "database" directly, though a
 seed script offers more ease of use, and flexibility if you later decide to
@@ -76,11 +79,13 @@ convert your models to another ORM.
           :name: Joe DeRita
           :email: curlyjoe@3stooges.com
 
+
 ### Querying
 
 You can get a model instance by key with the `get` method:
 
     @moe = Person.get "moe@3stooges.com"
+
 
 Searching and sorting are done via blocks. This is very fast for the small
 datasets that Prequel is designed for. You can treat the block argument
@@ -90,27 +95,12 @@ names.
     @larry = Person.first {|p| p[:name] =~ /Larry/}
     @curly = Person.first {|p| p.email =~ /curly/ && p.name =~ /Howard/}
 
-Perhaps counterintuitively, the results of finds are not arrays of instances,
-but rather sets of keys:
 
-    # This will be an instance of Prequel::KeySet
-    @stooges = Person.find {|p| p["email"] =~ /stooge/}
-
-    # This will be an array of Person instances
-    @stooges = Person.find {|p| p["email"] =~ /stooge/}.instances
-
-    # Iterate via instances
-    Person.find {|p| p["email"] =~ /stooge/}.each_instance do |stooge|
-      p stooge.name
-    end
-
-This makes Prequel fast by avoiding the creation of unused instances, and lets
-you create chainable filters via model class methods:
+Prequel lets you create chainable filters via model class methods:
 
     class Country
       extend Prequel::Model
       field :tld, :name, :population, :region
-      use :main
 
       def self.african
         find {|p| p.region == :africa}
@@ -141,12 +131,14 @@ It also lets you do set operations on the key sets themselves:
 
 ### Active Model
 
-Prequel has full Active Model support. Simply include `Prequel::ActiveModel` to
+Prequel implements the [Active
+Model](http://yehudakatz.com/2010/01/10/activemodel-make-any-ruby-object-feel-like-activerecord/)
+API to make it easy to use with Rails. Simply extend `Prequel::ActiveModel` to
 make your model behave like Active Record.
 
     class Country
       extend Prequel::Model
-      include Prequel::ActiveModel
+      extend Prequel::ActiveModel
 
       use :main
 

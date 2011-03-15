@@ -31,3 +31,8 @@ begin
   end
 rescue LoadError
 end
+
+desc "Run benchmarks"
+task :bench do
+  require File.expand_path("../extras/bench", __FILE__)
+end
