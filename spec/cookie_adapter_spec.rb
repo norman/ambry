@@ -3,7 +3,7 @@ require "prequel/adapters/cookie"
 
 class User
   extend Prequel::Model
-  attr_accessor :email, :name
+  field :email, :name
 end
 
 module CookieAdapterSpecHelpers

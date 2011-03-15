@@ -17,7 +17,7 @@ module Prequel
     attr_accessor :id_method
     alias attr_id id_method=
 
-    def attr_accessor(*names)
+    def field(*names)
       names.each do |name|
         # First attribute added is the default id
         attr_id name if attribute_names.empty?

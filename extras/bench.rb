@@ -11,7 +11,7 @@ Prequel::Adapter.new
 class Person
   extend Prequel::Model
   use :main
-  attr_accessor :email, :name, :age
+  field :email, :name, :age
 
   def self.older_than(age)
     with_index("older_than_#{age}") do

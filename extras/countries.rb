@@ -7,7 +7,7 @@ Prequel::Adapter.new
 
 class Country
   extend Prequel::Model
-  attr_accessor :tld, :name, :population, :region
+  field :tld, :name, :population, :region
 
   def self.african
     find {|p| p.region == :africa}

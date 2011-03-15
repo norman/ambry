@@ -17,7 +17,7 @@ use Rack::Prequel, :name => :cookie, :secret => "Sssshhhh! This is a secret."
 
 class Book
   extend Prequel::Model
-  attr_accessor :slug, :title, :author
+  field :slug, :title, :author
   use :cookie
 
   def title=(value)

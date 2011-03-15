@@ -37,13 +37,13 @@ Initialize Prequel by instantiating an adapter. For Rails, this could go in a
     Prequel::Adapters::YAML.new(Rails.root.join("db", "prequel.yaml")
 
 Setting up a class with PrequelModel is simple: just extend the module, and
-declare your persistable fields with `attr_accessor`. The first field declared
+declare your persistable fields with `field`. The first field declared
 will be behave as the "primary key," and it's up to you to ensure that it's
 unique.
 
     class Person
       extend Prequel::Model
-      attr_accessor :name, :email
+      field :name, :email
     end
 
 
@@ -109,7 +109,7 @@ you create chainable filters via model class methods:
 
     class Country
       extend Prequel::Model
-      attr_accessor :tld, :name, :population, :region
+      field :tld, :name, :population, :region
       use :main
 
       def self.african
@@ -150,7 +150,7 @@ make your model behave like Active Record.
 
       use :main
 
-      attr_accessor :tld, :name, :population
+      field :tld, :name, :population
 
       validates_presence_of :name
       validates_numericality_of :population

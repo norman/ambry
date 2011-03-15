@@ -13,7 +13,8 @@ require "ffaker"
 
 class Person
   extend Prequel::Model
-  attr_accessor :email, :name
+  field :email, :name
+  use :main
 
   def self.stooges
     with_index("stooges") do
