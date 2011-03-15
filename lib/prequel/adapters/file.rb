@@ -14,7 +14,7 @@ module Prequel
 
       def load_database
         @db = import_data
-        @db.map(&:freeze)
+        @db.blank? ? @db = {} : @db.map(&:freeze)
       rescue Errno::ENOENT
         # @TODO warn via logger when file doesn't exist
         @db = {}
