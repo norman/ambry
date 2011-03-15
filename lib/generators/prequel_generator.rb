@@ -1,7 +1,15 @@
 require 'rails/generators'
+require 'rails/generators/actions'
 
 class PrequelGenerator < Rails::Generators::Base
-  initializer("prequel.rb") do
-    'Prequel::Adapters::YAML.new(Rails.root.join("db", "prequel.yaml")'
+
+  def create_files
+    initializer("prequel.rb") do
+      <<-EOI
+require "prequel/adapters/yaml"
+Prequel::Adapters::YAML.new :file => Rails.root.join('db', 'prequel.yml')
+      EOI
+    end
+    create_file("db/prequel.yml", '')
   end
 end
