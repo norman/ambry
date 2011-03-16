@@ -90,6 +90,15 @@ module Prequel
 
     module InstanceMethods
 
+      # Prequel models can be instantiated with a hash of attribures, a block,
+      # or both. If both a hash and block are given, then the values set inside
+      # the block will take precedence over those set in the hash.
+      #
+      # @example
+      #   Person.new :name => "Joe"
+      #   Person.new {|p| p.name = "Joe"}
+      #   Person.new(params[:person]) {|p| p.age = 38}
+      #
       def initialize(attributes = nil, &block)
         @attributes = {}.freeze
         return unless attributes || block_given?
@@ -99,27 +108,34 @@ module Prequel
             send("#{name}=", value) if value
           end
         end
-        yield(self) if block_given?
+        yield self if block_given?
       end
 
+      # Prequel models implement the <=> method and mix in Comparable to provide
+      # sorting methods. This default implementation compares the result of
+      # #to_id. If the items being compared are not of the same kind.
       def <=>(instance)
         to_id <=> instance.to_id if instance.kind_of? self.class
       end
 
+      # Get a hash of the instance's model attributes.
       def to_hash
         self.class.attribute_names.inject({}) do |hash, key|
           hash[key] = self.send(key); hash
         end
       end
 
+      # Invoke the model's id method to return this instance's unique key.
       def to_id
         send self.class.id_method
       end
 
+      # Tell the mapper to save the data for this model instance.
       def save
         self.class.mapper.put(self)
       end
 
+      # Update this instance's attributes and invoke #save.
       def update_attributes(attributes)
         self.class.attribute_names.each do |name|
           value = attributes[name] || attributes[name.to_s]
@@ -128,6 +144,7 @@ module Prequel
         save
       end
 
+      # Tell the mapper to delete the data for this instance.
       def delete
         self.class.delete(self.to_id)
       end

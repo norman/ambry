@@ -7,6 +7,10 @@ require "prequel/model"
 require "prequel/hash_proxy"
 require "prequel/adapters/file"
 
+# Prequel is a database and ORM replacement for small, mostly static models.
+#
+# Prequel is free software released under the terms of the MIT License.
+# @author Norman Clarke
 module Prequel
   extend self
 
@@ -20,6 +24,10 @@ module Prequel
   attr_reader :adapters
   @adapters = {}
 
+  # Registers an adapter with Prequel. This facilitates allowing models to
+  # specify an adapter by name rather than class or instance.
+  # @param [Symbol] adapter The adapter name.
+  # @see Prequel::Model::ClassMethods#use
   def register_adapter(adapter)
     name = adapter.name.to_sym
     if adapters[name]
@@ -35,6 +43,9 @@ module Prequel
 
   # Raised when a single instance is expected but could not be found.
   class NotFoundError < PrequelError
+
+    # @param [String] klass The class from which the error originated.
+    # @param [String] key The key whose lookup trigged the error.
     def initialize(*args)
       super('Could not find %s with key "%s"' % args)
     end

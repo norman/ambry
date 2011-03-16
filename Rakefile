@@ -28,6 +28,7 @@ begin
   require "yard"
   YARD::Rake::YardocTask.new do |t|
     t.options = ["--output-dir=doc"]
+    t.options << "--files" << ["Guide.md", "Changelog.md"].join(",")
   end
 rescue LoadError
 end

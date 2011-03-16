@@ -1,8 +1,14 @@
 require 'rails/generators'
 require 'rails/generators/actions'
 
+# This generator adds an initializer and default empty database to your Rails
+# application. It can be invoked on the command line like:
+#
+#     rails generate prequel
+#
 class PrequelGenerator < Rails::Generators::Base
 
+  # Create the initializer and empty database.
   def create_files
     initializer("prequel.rb") do
       <<-EOI

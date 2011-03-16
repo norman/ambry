@@ -34,6 +34,7 @@ module Prequel
       end
     end
 
+    # Memoize the output of a find in a threadsafe manner.
     def add_index(name, indexable)
       @lock.synchronize do
         @indexes[name] = indexable

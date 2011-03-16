@@ -4,7 +4,7 @@ module Prequel
   # Extend this module if you want {Active Model}[http://github.com/rails/rails/tree/master/activemodel]
   # support. Active Model is an API provided by Rails to make any Ruby object
   # behave like an Active Record model instance. You can read an older writeup
-  # about it [here](http://yehudakatz.com/2010/01/10/activemodel-make-any-ruby-object-feel-like-activerecord/).
+  # about it {here}[http://yehudakatz.com/2010/01/10/activemodel-make-any-ruby-object-feel-like-activerecord/].
   module ActiveModel
     def self.extended(base)
       base.instance_eval do
@@ -20,7 +20,9 @@ module Prequel
       end
     end
 
+    # Custom validations.
     module Validations
+      # A uniqueness validator, similar to the one provided by Active Record.
       class Uniqueness< ::ActiveModel::EachValidator
         def validate_each(record, attribute, value)
           return if record.persisted?
@@ -41,10 +43,13 @@ module Prequel
     end
 
     module ClassMethods
+      # Create and save a model instance, raising an exception if any errors
+      # occur.
       def create!(*args)
         new(*args).save!
       end
 
+      # Validate the uniqueness of a field's value in a model instance.
       def validates_uniqueness_of(*attr_names)
         validates_with Validations::Uniqueness, _merge_attributes(attr_names)
       end

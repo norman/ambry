@@ -2,13 +2,15 @@ module Prequel
 
   # Adapters are responsible for persisting the database. This base adapter
   # offers no persistence, all IO operations are just stubs. Adapters must also
-  # present the full database as a Hash to the mapper by providing a key_set
-  # method that returns an instance of Prequel::Key set with all keys.
+  # present the full database as a Hash to the mapper, and provide a `key`
+  # method that returns an  array with all the keys for the specified model
+  # class.
   class Adapter
 
     attr_reader :name
     attr_reader :db
 
+    # @option options [String] :name The adapter name. Defaults to {#Prequel.default_adapter_name}.
     def initialize(options = {})
       @name = options[:name] || Prequel.default_adapter_name
       load_database
@@ -21,6 +23,8 @@ module Prequel
       @db[klass.to_s] ||= {}
     end
 
+    # Loads the database. For this adapter, that means simply creating a new
+    # hash.
     def load_database
       @db = {}
     end
@@ -28,14 +32,20 @@ module Prequel
     # These are all just noops for this adapter, which uses an in-memory hash
     # and offers no persistence.
 
+    # Inheriting adapters can overload this method to export the data to a
+    # String.
     def export_data
       true
     end
 
+    # Inheriting adapters can overload this method to load the data from some
+    # kind of storage.
     def import_data
       true
     end
 
+    # Inheriting adapters can overload this method to persist the data to some
+    # kind of storage.
     def save_database
       true
     end
