@@ -16,15 +16,15 @@ module Prequel
       @indexes      = {}
       @lock         = Mutex.new
       @options      = options
-      @hash         = adapter.db[klass.to_s] ||= {}
+      @hash         = adapter.db_for(klass)
     end
 
-    # Returns a hash
+    # Returns a hash or model attributes corresponding the the provided key.
     def [](key)
       hash[key] or raise NotFoundError.new(klass, key)
     end
 
-    # Sets a hash by key
+    # Sets a hash by key.
     def []=(key, value)
       @lock.synchronize do
         @indexes = {}
@@ -50,7 +50,7 @@ module Prequel
     end
 
     def key_set
-      klass.key_class.new(adapter.keys(klass), self)
+      klass.key_class.new(hash.keys, self)
     end
 
     # Sets an instance, invoking its to_id method

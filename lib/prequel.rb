@@ -10,10 +10,14 @@ require "prequel/adapters/file"
 module Prequel
   extend self
 
-  attr_accessor   :default_adapter_name
+  @lock = Mutex.new
+
+  # The default adapter name.
+  attr_reader   :default_adapter_name
   @default_adapter_name = :main
 
-  attr_accessor :adapters
+  # A hash of all instantiated Prequel adapters.
+  attr_reader :adapters
   @adapters = {}
 
   def register_adapter(adapter)
@@ -21,7 +25,9 @@ module Prequel
     if adapters[name]
       raise PrequelError, "Adapter #{name.inspect} already registered"
     end
-    adapters[name] = adapter
+    @lock.synchronize do
+      adapters[name] = adapter
+    end
   end
 
   # Base error for Prequel.

@@ -2,9 +2,11 @@ module Prequel
 
   class KeySet
     extend Forwardable
+    include Enumerable
 
     attr_accessor  :keys, :mapper
     def_delegators :keys, :empty?, :length, :size
+    def_delegators :to_enum, :each
 
     # Create a new KeySet from an array of keys and a mapper.
     def initialize(keys = nil, mapper = nil)
@@ -67,9 +69,10 @@ module Prequel
       end, mapper)
     end
 
-    def all
+    def to_enum
       KeyIterator.new(keys) {|k| @mapper.get(k)}
     end
+    alias all to_enum
 
     def find_by_key(&block)
       return self unless block_given?
@@ -90,9 +93,8 @@ module Prequel
     end
 
     def limit(length)
-      self.class.new(@keys.first(length.to_i).freeze, mapper)
+      self.class.new(@keys.first(length).freeze, mapper)
     end
-
   end
 
   class KeyIterator

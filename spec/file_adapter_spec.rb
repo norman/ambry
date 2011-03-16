@@ -8,7 +8,7 @@ classes.each do |klass|
   describe klass.to_s do
 
     before do
-      Prequel.adapters = {}
+      Prequel.adapters.clear
       @path = File.expand_path("../file_adapter_test", __FILE__)
       @adapter = klass.new(:file => @path)
       @adapter.instance_variable_set :@db, {
@@ -20,7 +20,7 @@ classes.each do |klass|
     end
 
     after do
-      Prequel.adapters = {}
+      Prequel.adapters.clear
       FileUtils.rm_f @path
     end
 

@@ -15,8 +15,10 @@ module Prequel
       Prequel.register_adapter(self)
     end
 
-    def keys(klass)
-      (@db[klass.to_s] ||= {}).keys
+    # Get a hash of all the data for the specified model class.
+    # @param klass [#to_s] The model class whose data to return.
+    def db_for(klass)
+      @db[klass.to_s] ||= {}
     end
 
     def load_database

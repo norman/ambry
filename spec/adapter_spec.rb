@@ -27,13 +27,13 @@ describe Prequel::Adapter do
     end
   end
 
-  describe "#key_set" do
+  describe "#db_for" do
 
     before { load_fixtures }
 
-    it "should return a instance of key_set" do
+    it "should return a instance of Hash" do
       adapter = Prequel.adapters[:main]
-      assert_kind_of Prequel::KeySet, adapter.key_set(Person.mapper)
+      assert_kind_of Hash, adapter.db_for(Person)
     end
   end
 
