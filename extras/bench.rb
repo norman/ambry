@@ -12,10 +12,21 @@ class Person
   extend Prequel::Model
   field :email, :name, :age
 
-  def self.older_than(age)
-    with_index("older_than_#{age}") do
-      Person.find {|person| person[:age] > age}
+  def self.younger_than(age)
+    with_index("younger_than_#{age}") do
+      find {|person| person[:age] < age}
     end
+  end
+
+  filters do
+    def older_than(age)
+      find {|person| person[:age] > age}
+    end
+
+    def email_matches(regexp)
+      find {|person| person[:email] =~ regexp}
+    end
+
   end
 end
 
@@ -72,13 +83,19 @@ Benchmark.bmbm do |x|
 
   x.report("Find scoped people without index") do
     N.times do
-      Person.find {|p| p[:age] > 50 && p[:email] =~ /\.com/}
+      Person.find {|p| p[:age] < 50 && p[:email] =~ /\.com/}
     end
   end
 
   x.report("Find scoped people with index") do
     N.times do
-      Person.older_than(50).find {|p| p[:email] =~ /\.com/}
+      Person.younger_than(50).find {|p| p[:email] =~ /\.com/}
+    end
+  end
+
+  x.report("Find with chained filters") do
+    N.times do
+      Person.older_than(50).email_matches(/\.com/)
     end
   end
 

@@ -50,7 +50,7 @@ module Prequel
     end
 
     def key_set
-      adapter.key_set(self)
+      klass.key_class.new(adapter.keys(klass), self)
     end
 
     # Sets an instance, invoking its to_id method

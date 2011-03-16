@@ -9,17 +9,20 @@ class Country
   extend Prequel::Model
   field :tld, :name, :population, :region
 
-  def self.african
-    find {|p| p.region == :africa}
+  filters do
+    def african
+      find {|p| p.region == :africa}
+    end
+
+    def european
+      find {|p| p.region == :europe}
+    end
+
+    def population(op, num)
+      find {|p| p.population.send(op, num)}.sort {|a, b| b.population <=> a.population}
+    end
   end
 
-  def self.european
-    find {|p| p.region == :europe}
-  end
-
-  def self.population(op, num)
-    find {|p| p.population.send(op, num)}.sort {|a, b| b.population <=> a.population}
-  end
 end
 
 # Population data from: http://en.wikipedia.org/wiki/List_of_countries_by_population

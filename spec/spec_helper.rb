@@ -16,14 +16,12 @@ class Person
   field :email, :name
   use :main
 
-  def self.stooges
-    with_index("stooges") do
+  filters do
+    def stooges
       find_by_key {|k| k =~ /3stooges.com/}
     end
-  end
 
-  def self.non_howards
-    with_index("non_howards") do
+    def non_howards
       find {|p| p[:name] !~ /Howard/}
     end
   end

@@ -15,9 +15,8 @@ module Prequel
       Prequel.register_adapter(self)
     end
 
-    def key_set(mapper)
-      @db[mapper.klass.to_s] ||= {}
-      KeySet.new(@db[mapper.klass.to_s].keys, mapper)
+    def keys(klass)
+      (@db[klass.to_s] ||= {}).keys
     end
 
     def load_database

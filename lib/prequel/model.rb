@@ -3,17 +3,21 @@ module Prequel
   module Model
     def self.extended(base)
       base.instance_eval do
-        @lock = Mutex.new
+        @lock            = Mutex.new
         @attribute_names = []
-        include Comparable
-        include InstanceMethods
+        @key_class       = Class.new(Prequel::KeySet)
         extend  ClassMethods
-        extend  DSLMethods
+        include InstanceMethods
+        include Comparable
       end
     end
 
-    module DSLMethods
-      attr_accessor :id_method
+    module ClassMethods
+      extend Forwardable
+      attr_accessor :attribute_names, :id_method, :mapper
+      attr_reader :key_class
+      def_delegators(*[:find, Enumerable.public_instance_methods(false)].flatten)
+      def_delegators(:mapper, :[], :all, :delete, :first, :get, :count, :find, :find_by_key, :keys)
       alias attr_id id_method=
 
       def field(*names)
@@ -45,13 +49,6 @@ module Prequel
           mapper.add_index(name, indexable)
         end
       end
-    end
-
-    module ClassMethods
-      extend Forwardable
-      attr_accessor :attribute_names, :mapper
-      def_delegators *[:find, Enumerable.public_instance_methods(false)].flatten
-      def_delegators :mapper, :[], :all, :delete, :first, :get, :count, :find, :find_by_key, :keys
 
       def create(hash)
         new(hash).save
@@ -70,6 +67,17 @@ module Prequel
         instance
       end
       private :from_hash
+
+      def filters(&block)
+        key_class.class_eval(&block)
+        key_class.instance_methods(false).each do |name|
+        instance_eval(<<-EOM, __FILE__, __LINE__ + 1)
+          def #{name}(*args)
+            mapper.key_set.#{name}(*args)
+          end
+        EOM
+        end
+      end
 
       def mapper
         @mapper or @lock.synchronize do
