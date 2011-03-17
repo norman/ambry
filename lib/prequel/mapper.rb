@@ -51,7 +51,7 @@ module Prequel
     end
 
     def key_set
-      klass.key_class.new(hash.keys, self)
+      klass.key_class.new(hash.keys.freeze, self)
     end
 
     # Sets an instance, invoking its to_id method

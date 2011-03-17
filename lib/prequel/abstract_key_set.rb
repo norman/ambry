@@ -32,7 +32,7 @@ module Prequel
     end
 
     def &(key_set)
-      self.class.new((keys & key_set.keys), mapper)
+      self.class.new((keys & key_set.keys).compact.freeze, mapper)
     end
 
     # With no block, returns an instance for the first key. If a block is given,
