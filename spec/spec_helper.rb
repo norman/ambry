@@ -15,11 +15,13 @@ class Person
   extend Prequel::Model
   field :email, :name
 
-  filters do
-    def stooges
+  def self.stooges
+    with_index do
       find_by_key {|k| k =~ /3stooges.com/}
     end
+  end
 
+  filters do
     def non_howards
       find {|p| p[:name] !~ /Howard/}
     end
