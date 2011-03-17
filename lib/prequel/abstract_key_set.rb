@@ -1,6 +1,7 @@
 module Prequel
 
-  class KeySet
+  # @abstract
+  class AbstractKeySet
     extend Forwardable
     include Enumerable
 

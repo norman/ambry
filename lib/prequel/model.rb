@@ -5,7 +5,7 @@ module Prequel
       base.instance_eval do
         @lock            = Mutex.new
         @attribute_names = []
-        @key_class       = Class.new(Prequel::KeySet)
+        @key_class       = Class.new(Prequel::AbstractKeySet)
         extend  ClassMethods
         include InstanceMethods
         include Comparable

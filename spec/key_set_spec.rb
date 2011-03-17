@@ -1,6 +1,6 @@
 require File.expand_path("../spec_helper", __FILE__)
 
-describe Prequel::KeySet do
+describe Prequel::AbstractKeySet do
 
   before { load_fixtures }
   after  { Prequel.adapters.clear }
@@ -54,7 +54,7 @@ describe Prequel::KeySet do
   describe "#find" do
     it "should return a KeySet of matching keys when called with a block" do
       key_set = Person.find {|p| p.name =~ /Larry/}
-      assert_kind_of Prequel::KeySet, key_set
+      assert_kind_of Prequel::AbstractKeySet, key_set
       assert_equal 1, key_set.size
     end
 

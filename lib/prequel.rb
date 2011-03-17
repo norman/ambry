@@ -1,7 +1,7 @@
 require "forwardable"
 require "thread"
 require "prequel/adapter"
-require "prequel/key_set"
+require "prequel/abstract_key_set"
 require "prequel/mapper"
 require "prequel/model"
 require "prequel/hash_proxy"

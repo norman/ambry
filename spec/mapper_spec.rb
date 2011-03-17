@@ -76,7 +76,7 @@ describe Prequel::Mapper do
     describe "#key_set" do
       it "should return a Prequel::KeySet with all keys" do
         ks = Person.mapper.key_set
-        assert_kind_of Prequel::KeySet, ks
+        assert_kind_of Prequel::AbstractKeySet, ks
         assert_equal Person.count, ks.count
       end
     end
