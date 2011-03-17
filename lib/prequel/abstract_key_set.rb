@@ -22,15 +22,6 @@ module Prequel
       @mapper = mapper
     end
 
-    # Look for a class method in the model class to use as a chainable filter.
-    def method_missing(symbol, *args, &block)
-      if mapper.klass.key_class.instance_methods(false).include? symbol
-        mapper.klass.key_class.new(@keys, mapper).send(symbol, *args, &block)
-      else
-        raise NoMethodError.new("undefined method `%s' for %s:%s" % [symbol, self, self.class])
-      end
-    end
-
     def +(key_set)
       self.class.new(keys + key_set.keys, mapper)
     end
