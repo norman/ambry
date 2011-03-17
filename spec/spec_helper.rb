@@ -14,7 +14,6 @@ require "ffaker"
 class Person
   extend Prequel::Model
   field :email, :name
-  use :main
 
   filters do
     def stooges
@@ -30,7 +29,7 @@ end
 def load_fixtures
   Prequel.adapters.clear
   file = File.expand_path("../fixtures.yml", __FILE__)
-  Prequel::Adapters::YAML.new :name => :main, :file => file
+  Prequel::Adapters::YAML.new :file => file
 end
 
 MiniTest::Unit.autorun

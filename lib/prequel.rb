@@ -26,6 +26,7 @@ module Prequel
 
   # Registers an adapter with Prequel. This facilitates allowing models to
   # specify an adapter by name rather than class or instance.
+  #
   # @param [Symbol] adapter The adapter name.
   # @see Prequel::Model::ClassMethods#use
   def register_adapter(adapter)

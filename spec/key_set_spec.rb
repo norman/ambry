@@ -19,7 +19,9 @@ describe Prequel::AbstractKeySet do
 
   describe "#-" do
     it "should subtract a key set" do
-      key_set = Person.find - Person.find {|p| p.name =~ /Larry/}
+      a = Person.find
+      b = Person.find {|p| p.name =~ /Larry|Ted/}
+      key_set = a - b
       assert_equal 3, key_set.length
     end
   end

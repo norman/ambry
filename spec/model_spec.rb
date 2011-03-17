@@ -5,7 +5,7 @@ describe Prequel::Model do
   before { load_fixtures }
   after  { Prequel.adapters.clear }
 
-  describe ".initialize" do
+  describe "#initialize" do
 
     it "can be called with no arguments" do
       assert Person.new

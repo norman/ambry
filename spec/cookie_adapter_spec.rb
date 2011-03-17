@@ -40,7 +40,7 @@ describe Prequel::Adapters::Cookie do
 
   describe Prequel::Adapters::Cookie do
 
-    describe ".initialize" do
+    describe "#initialize" do
       it "should decode signed data if given" do
         adapter = Prequel::Adapters::Cookie.new \
           :secret => secret,

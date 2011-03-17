@@ -41,6 +41,7 @@ module Prequel
       end
     end
 
+    # Get the adapter.
     def adapter
       Prequel.adapters[adapter_name]
     end

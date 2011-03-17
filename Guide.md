@@ -19,6 +19,17 @@ expose a powerful, ORM-like query interface to Ruby's Hash. It can operate
 entirely in-memory, or persist data in a file or a compressed, signed string
 suitable for passing as a cookie.
 
+Prequel loads your dataset from the file and keeps it in memory. It's not a
+"NoSQL", it's a "NoDB". There's not only no schema or migrations to set up,
+there's also no server or anything else to install since its only dependencies
+are Ruby's standard library. Whenever possible, it behaves like the Ruby
+standard library as opposed to introducing quirky behavior. It was inspired in
+part by [Rubinius's](http://rubini.us/) short but meaningful tagline "Use Ruby."
+
+But just a word of warning - don't even dare think about using it for more than
+a couple megabytes of data. For that you need a real database of some sort, like
+Postgres, MySQL, Redis, Mongo, etc.
+
 ## An example
 
 class Country
@@ -27,7 +38,7 @@ class Country
     def african
       find {|c| c.region == :africa}
     end
-    
+
     def large
       find {|c| c.area >= 100_000}
     end

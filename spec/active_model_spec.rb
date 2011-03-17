@@ -95,7 +95,6 @@ describe Prequel::ActiveModel do
       @model.destroy
       assert @model.instance_variable_defined? :@destroy_callback_fired
     end
-
   end
 
   describe ".validates_uniqueness_of" do
