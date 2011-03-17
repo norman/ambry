@@ -43,8 +43,11 @@ module Prequel
         @mapper_options = options
       end
 
-      def with_index(name, &block)
-        mapper.indexes[name] or begin
+      # Memoize the output of the method call invoked in the block.
+      # @params [#to_s] name If not given, the name of the method calling with_index will be used.
+      def with_index(name = nil, &block)
+        name ||= caller(1)[0].match(/in `(.*)'\z/)[1]
+        mapper.indexes[name.to_s] or begin
           indexable = yield
           mapper.add_index(name, indexable)
         end
