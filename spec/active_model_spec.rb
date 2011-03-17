@@ -39,6 +39,26 @@ describe Prequel::ActiveModel do
   include ActiveModuleSupportSpecHelper
   include ActiveModel::Lint::Tests
 
+  describe "#keys" do
+    it "should return an array of attribute names" do
+      assert @model.keys.include?(:slug), "@model.keys should include :slug"
+    end
+  end
+
+  describe "#model_name" do
+    it "should return an ActiveModel::Name" do
+      assert_kind_of ::ActiveModel::Name, @model.model_name
+    end
+  end
+
+  describe "#save!" do
+    it "should raise an exception if the model is not valid" do
+      assert_raises Prequel::PrequelError do
+        Book.new.save!
+      end
+    end
+  end
+
   describe "#to_json" do
     it "should serialize" do
       json = @model.to_json
