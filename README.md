@@ -6,8 +6,12 @@ library with plain old Ruby objects that are searchable via a fast, simple
 database-like API.
 
 It implements Active Model and has generators to integrate nicely with Rails.
+You can store your data in a file, a signed string suitable for storage in a
+cookie, or easily write your own IO adapter.
 
-For more info, take a peek at the {Guide}, or read on for some quick samples.
+For more info, take a peek at the [Prequel
+Guide](http://norman.github.com/prequel/file.Guide.html), or read on for some
+quick samples.
 
 ## A quick tour
 
@@ -42,17 +46,11 @@ For more info, take a peek at the {Guide}, or read on for some quick samples.
     Country.create :tld => "CA", :name => "Canada",    :region => :america, :population => 34_000_000
     Country.create :tld => "JP", :name => "Japan",     :region => :asia,    :population => 127_000_000
     Country.create :tld => "CN", :name => "China",     :region => :asia,    :population => 1_300_000_000
-
-    # Save the database. Prequel is oriented towards reads, so you only write
-    # when you want to save the whole database.
-    adapter.save_database
+    # etc.
 
     # Do some searches
-    big_asian_countries = Country.big.in_region(:asia)
-    start_with_c        = Country.find {|c| c.name =~ /^C/}
-## Find out more
-
-A guide for Prequel is in the works, but for now you can read the API docs.
+    big_asian_countries         = Country.big.in_region(:asia)
+    countries_that_start_with_c = Country.find {|c| c.name =~ /^C/}
 
 
 ## Installation
@@ -66,18 +64,22 @@ with others. Note that 1.8.6 is not supported.
 
 * Ruby 1.8.7 - 1.9.2
 * Rubinius 1.2.3
-* JRuby 1.5.6
+* JRuby 1.5.6+
 
 ## Author
 
-    Norman Clarke (norman@njclarke.com)
+  [Norman Clarke](mailto:norman@njclarke.com)
 
-## Thanks
+## Contributors
 
-Thanks to Adrián Mugnolo for ideas, code review and the idea for the name.
-Thanks to the authors of [Sequel](http://sequel.rubyforge.org/) for the
-inspiration for this library's name, and the the idea behind how the filters and
-relations should work.
+Many thanks to Adrián Mugnolo for code review, feedback and the
+inspiration for the name.
+
+## The name
+
+Why "Prequel?" Because for some models, before you try SQL, you should try
+this.  Also, because [Sequel](http://sequel.rubyforge.org/) is a fantastic
+library, and it inspired this library's use of Enumerable.
 
 ## License
 
@@ -86,16 +88,17 @@ Copyright (c) 2011 Norman Clarke
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
 the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

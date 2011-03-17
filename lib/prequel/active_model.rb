@@ -113,6 +113,10 @@ module Prequel
       def destroy
         run_callbacks(:destroy) { delete }
       end
+
+      def update_attributes
+        run_callbacks(:save) { update }
+      end
     end
   end
 end

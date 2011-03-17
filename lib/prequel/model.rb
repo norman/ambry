@@ -136,7 +136,7 @@ module Prequel
       end
 
       # Update this instance's attributes and invoke #save.
-      def update_attributes(attributes)
+      def update(attributes)
         self.class.attribute_names.each do |name|
           value = attributes[name] || attributes[name.to_s]
           send("#{name}=", value) if value
