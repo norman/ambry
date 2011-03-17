@@ -128,9 +128,17 @@ module Prequel
         end
       end
 
-      # Invoke the model's id method to return this instance's unique key.
-      def to_id
-        send self.class.id_method
+      # Returns true is the model's id field has been updated.
+      def id_changed?
+        to_id != @attributes[self.class.id_method]
+      end
+
+      # Invoke the model's id method to return this instance's unique key. If
+      # true is passed, then the id will be read from the attributes hash rather
+      # than from an instance variable. This allows you to retrieve the old id,
+      # in the event that the id has been changed.
+      def to_id(use_old = false)
+        use_old ? @attributes[self.class.id_method] : send(self.class.id_method)
       end
 
       # Tell the mapper to save the data for this model instance.

@@ -39,15 +39,15 @@ describe Prequel::ActiveModel do
   include ActiveModuleSupportSpecHelper
   include ActiveModel::Lint::Tests
 
-  describe "#keys" do
-    it "should return an array of attribute names" do
-      assert @model.keys.include?(:slug), "@model.keys should include :slug"
+  describe ".model_name" do
+    it "should return an ActiveModel::Name" do
+      assert_kind_of ::ActiveModel::Name, Book.model_name
     end
   end
 
-  describe "#model_name" do
-    it "should return an ActiveModel::Name" do
-      assert_kind_of ::ActiveModel::Name, @model.model_name
+  describe "#keys" do
+    it "should return an array of attribute names" do
+      assert @model.keys.include?(:slug), "@model.keys should include :slug"
     end
   end
 

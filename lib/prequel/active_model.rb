@@ -53,6 +53,10 @@ module Prequel
       def validates_uniqueness_of(*attr_names)
         validates_with Validations::Uniqueness, _merge_attributes(attr_names)
       end
+
+      def model_name
+        @model_name ||= ::ActiveModel::Name.new(self)
+      end
     end
 
     module InstanceMethods
@@ -104,10 +108,6 @@ module Prequel
 
       def to_key
         [to_param] if persisted?
-      end
-
-      def model_name
-        @model_name ||= ::ActiveModel::Name.new(self.class)
       end
 
       def destroy

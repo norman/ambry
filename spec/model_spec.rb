@@ -121,6 +121,37 @@ describe Prequel::Model do
     end
   end
 
+  describe "#id_changed?" do
+    it "should be true if the id changed" do
+      p = Person.get("moe@3stooges.com")
+      refute p.id_changed?
+    end
+
+    it "should be false if the id didn't change" do
+      p = Person.get("moe@3stooges.com")
+      p.email = "moe2@3stooges.com"
+      assert p.id_changed?
+    end
+  end
+
+  describe "#update" do
+    it "updates the database" do
+      p = Person.get("moe@3stooges.com")
+      original = p.name
+      p.update(:name => "Joe Schmoe")
+      p = Person.get("moe@3stooges.com")
+      refute_equal original, p.name
+    end
+
+    it "should allow updating the key" do
+      count = Person.count
+      p = Person.get("moe@3stooges.com")
+      p.update(:email => "moe2@3stooges.com")
+      assert_equal count, Person.count
+    end
+
+  end
+
   describe "#save" do
     it "passes itself to Mapper#put" do
       p = Person.new(:name => "hello")

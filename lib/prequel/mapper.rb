@@ -28,6 +28,9 @@ module Prequel
     def []=(key, value)
       @lock.synchronize do
         @indexes = {}
+        if value.id_changed?
+          hash.delete value.to_id(true)
+        end
         saved = hash[key] = value.to_hash.freeze
         adapter.save_database if @options[:sync]
         saved

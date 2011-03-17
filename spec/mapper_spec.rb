@@ -2,6 +2,11 @@ require File.expand_path("../spec_helper", __FILE__)
 
 MockAdapter = Struct.new(:db)
 
+class Value
+  extend Prequel::Model
+  field :a
+end
+
 describe Prequel::Mapper do
 
   describe "#initialize" do
@@ -52,17 +57,17 @@ describe Prequel::Mapper do
 
     describe "#[]=" do
       it "should return the value" do
-        value = Person.mapper[:bogus] = {:a => "b"}
-        assert_equal "b", value[:a]
+        value = Person.mapper[:a] = Value.new(:a => "b")
+        assert_equal "b", value.a
       end
 
       it "should set value#to_hash as value for key" do
-        value = Person.mapper[:bogus] = {:a => "b"}
+        value = Person.mapper[:bogus] = Value.new(:a => "b")
         assert_equal "b", Person.mapper[:bogus][:a]
       end
 
       it "should freeze the value" do
-        value = Person.mapper[:bogus] = {:a => "b"}
+        value = Person.mapper[:bogus] = Value.new(:a => "b")
         assert Person.mapper[:bogus].frozen?
       end
     end
@@ -82,12 +87,10 @@ describe Prequel::Mapper do
     end
 
     describe "#put" do
-      it "should invoke #to_id and add to hash" do
-        instance = Object.new
-        instance.expects(:to_id).returns(:a)
-        instance.expects(:to_hash).returns(:b => "c")
-        assert val = Person.mapper.put(instance)
-        refute Person.mapper[:a].nil?
+      it "should add to hash and return the value" do
+        instance = Value.new(:a => "b")
+        assert value = Value.mapper.put(instance)
+        assert_equal instance, value
       end
     end
   end
