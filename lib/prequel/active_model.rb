@@ -92,7 +92,7 @@ module Prequel
 
       def save!
         if !valid?
-          raise errors.to_a.join(", ")
+          raise Prequel::PrequelError, errors.to_a.join(", ")
         else
           save
         end
