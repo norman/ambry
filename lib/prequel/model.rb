@@ -18,12 +18,12 @@ module Prequel
       attr_reader :key_class
       def_delegators(*[:find, Enumerable.public_instance_methods(false)].flatten)
       def_delegators(:mapper, :[], :all, :delete, :first, :get, :count, :find, :find_by_key, :keys)
-      alias attr_id id_method=
+      alias id_field id_method=
 
       def field(*names)
         names.each do |name|
           # First attribute added is the default id
-          attr_id name if attribute_names.empty?
+          id_field name if attribute_names.empty?
           attribute_names << name.to_sym
           class_eval(<<-EOM, __FILE__, __LINE__ + 1)
             def #{name}
