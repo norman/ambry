@@ -14,27 +14,29 @@ the world's countries indexed by top level domain, or a list of phone number
 prefixes and their associated state, province or city.
 
 Creating a model with Active Record, DataMapper or another ORM and storing this
-data in an RDBMS is usually overkill for small and/or static datasets. On the
-other hand, keeping it in ad-hoc strutures can offer little flexibility
-when it comes to filtering, or establishing searchable relations with other
-models.
+data in an RDBMS introduces dependencies and is usually overkill for small
+and/or static datasets. On the other hand, keeping it in ad-hoc strutures can
+offer little flexibility when it comes to filtering, or establishing searchable
+relations with other models.
 
 Prequel offers a middle ground: it loads your dataset from a script or file,
 keeps it in memory as a hash, and makes use of Ruby's Enumerable module to
 expose a powerful, ORM-like query interface to your data.
 
-Bu just one word of warning: Prequel is not like Redis or Membase. It's not a
+But just one word of warning: Prequel is not like Redis or Membase. It's not a
 real database of any kind - SQL or NoSQL. Think of it as a "NoDB." Don't use it
 for more than a few megabytes of data: for that you'll want something like
-Redis, Postgres, or whatever kind of database makes sense for your needs.
+SQLite, Redis, Postgres, or whatever kind of database makes sense for your
+needs.
 
 ## Creating Models
 
 Almost any Ruby class can be stored as a Prequel Model, simply by extending
-the {#Prequel::Model} module:
+the {#Prequel::Model} module, and specifying which fields you want to store:
 
     class Person
       extend Prequel::Model
+      field :email, :name
     end
 
 You can also extend the {Prequel::ActiveModel} module to add an Active
@@ -60,8 +62,9 @@ id\_field} method to specify which field to use as the key.
 
 ### Basic operations on models
 
-New instances of Prequel Models can be {Prequel::Model::InstanceMethods#initialize initialized}
-with an optional hash of attributes, or a block.
+New instances of Prequel Models can be
+{Prequel::Model::InstanceMethods#initialize initialized} with an optional hash
+of attributes, or a block.
 
     person = Person.new :name => "Moe"
 
@@ -110,25 +113,27 @@ methods are fairly standard:
 
 #### Searching
 
-Finds in Prequel are done via the find class method. If a single argument is passed,
-that is treated as a key and Prequel looks for the matching record:
+Finds in Prequel are performed using the `find` class method. If a single
+argument is passed, that is treated as a key and Prequel looks for the matching
+record:
 
     Person.find "moe@3stooges" # returns instance of Person
     Person.find "cdsafdfds"    # raises Prequel::NotFoundError
 
 If a block is passed, then Prequel looks for records that return true for the
-conditions in the block, and returns an iterator that you can use to step through
-the results:
+conditions in the block, and returns an iterator that you can use to step
+through the results:
 
     people = Person.find {|p| p.city =~ /Seattle|Portland|London/}
     people.each do |person|
       puts "#{person.name} probably wishes it was sunny right now."
     end
 
-There are two important things to note here. First, in the `find` block, it appears
-that an instance of person is yielded. However, this is actually an instance of
-{Prequel::HashProxy}, which allows you to invoke model attributes either as symbols,
-strings, or methods. You could also have written the example these two ways:
+There are two important things to note here. First, in the `find` block, it
+appears that an instance of person is yielded. However, this is actually an
+instance of {Prequel::HashProxy}, which allows you to invoke model attributes
+either as symbols, strings, or methods. You could also have written the example
+these two ways:
 
     people = Person.find {|p| p[:city] =~ /Seattle|Portland|London/}
     people = Person.find {|p| p["city"] =~ /Seattle|Portland|London/}
@@ -136,10 +141,10 @@ strings, or methods. You could also have written the example these two ways:
 Second, the result of the find is not an array, but rather an enumerator that
 allows you to iterate over results while instantiating only the model objects
 that you use, in order to improve performance. This enumerator will be an
-instance of a subclass of {Prequel::AbstractKeySet}.
+instance of an anonymous subclass of {Prequel::AbstractKeySet}.
 
 Models' `find` methods are actually implemented directly on key sets: when you
-do `Person.find` you're simply doing a find on a key set that includes all keys
+do `Person.find` you're performing a find on a key set that includes all keys
 for the Person class. This is important because it allows finds to be refined:
 
     londoners = Person.find {|p| p.city == "London"}
@@ -149,7 +154,7 @@ for the Person class. This is important because it allows finds to be refined:
     end
 
     londoners.find {|p| p.country == "GB"}.each do |person|
-      puts "#{person.name} lives in Europe"
+      puts "#{person.name} lives in England"
     end
 
 Key sets can also be manipulated with set arithmetic functions:
@@ -204,7 +209,7 @@ chained:
 #### Relations
 
 Prequel doesn't include any special methods for creating relations as in Active
-Record, because this can easily be accomplished by definiing an instance method
+Record, because this can easily be accomplished by defining an instance method
 in your model:
 
     class Book
@@ -262,7 +267,7 @@ improve the performance of frequently accessed queries:
     end
 
 The argument to `with_index` is simply a name for the index, which needs to be
-unique to the model. You can optionally pass a name to with_index, which is
+unique to the model. You can optionally pass a name to `with_index`, which is
 a good idea when indexing methods that take arguments:
 
     def self.by_genre(genre)

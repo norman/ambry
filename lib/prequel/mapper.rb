@@ -19,7 +19,7 @@ module Prequel
       @hash         = adapter.db_for(klass)
     end
 
-    # Returns a hash or model attributes corresponding the the provided key.
+    # Returns a hash or model attributes corresponding to the provided key.
     def [](key)
       hash[key] or raise NotFoundError.new(klass, key)
     end

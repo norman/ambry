@@ -33,6 +33,7 @@ module Prequel
     end
   end
 
+  # Like HashProxy, but proxies access to two or more Hash instances.
   class HashProxySet
 
     attr :proxies
@@ -43,7 +44,7 @@ module Prequel
 
     def using(*args)
       args.size.times { proxies.push HashProxy.new } if proxies.empty?
-      proxies.each_with_index {|p, i| p.using args[i] }
+      proxies.each_with_index {|proxy, index| proxy.using args[index] }
     end
 
     def clear
