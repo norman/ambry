@@ -4,19 +4,19 @@ require 'rails/generators/actions'
 # This generator adds an initializer and default empty database to your Rails
 # application. It can be invoked on the command line like:
 #
-#     rails generate prequel
+#     rails generate norman
 #
-class PrequelGenerator < Rails::Generators::Base
+class NormanGenerator < Rails::Generators::Base
 
   # Create the initializer and empty database.
   def create_files
-    initializer("prequel.rb") do
+    initializer("norman.rb") do
       <<-EOI
-require "prequel/adapters/yaml"
-require "prequel/active_model"
-Prequel::Adapters::YAML.new :file => Rails.root.join('db', 'prequel.yml')
+require "norman/adapters/yaml"
+require "norman/active_model"
+Norman::Adapters::YAML.new :file => Rails.root.join('db', 'norman.yml')
       EOI
     end
-    create_file("db/prequel.yml", '')
+    create_file("db/norman.yml", '')
   end
 end

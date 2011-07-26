@@ -1,4 +1,4 @@
-module Prequel
+module Norman
 
   # Mappers provide the middle ground between models and adapters. Mappers are
   # responsible for performing finds and moving objects in and out of the
@@ -12,7 +12,7 @@ module Prequel
 
     def initialize(klass, adapter_name = nil, options = {})
       @klass        = klass
-      @adapter_name = adapter_name || Prequel.default_adapter_name
+      @adapter_name = adapter_name || Norman.default_adapter_name
       @indexes      = {}
       @lock         = Mutex.new
       @options      = options
@@ -46,7 +46,7 @@ module Prequel
 
     # Get the adapter.
     def adapter
-      Prequel.adapters[adapter_name]
+      Norman.adapters[adapter_name]
     end
 
     # Get an instance by key

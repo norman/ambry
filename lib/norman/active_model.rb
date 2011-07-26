@@ -1,6 +1,6 @@
 require "active_model"
 
-module Prequel
+module Norman
   # Extend this module if you want {Active Model}[http://github.com/rails/rails/tree/master/activemodel]
   # support. Active Model is an API provided by Rails to make any Ruby object
   # behave like an Active Record model instance. You can read an older writeup
@@ -31,7 +31,7 @@ module Prequel
               if record.class.mapper[value]
                 record.errors[attribute] << "must be unique"
               end
-            rescue Prequel::NotFoundError
+            rescue Norman::NotFoundError
             end
           else
             if record.class.all.detect {|x| x.send(attribute) == value}
@@ -96,7 +96,7 @@ module Prequel
 
       def save!
         if !valid?
-          raise Prequel::PrequelError, errors.to_a.join(", ")
+          raise Norman::NormanError, errors.to_a.join(", ")
         else
           save
         end

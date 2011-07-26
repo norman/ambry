@@ -1,17 +1,17 @@
 require "forwardable"
 require "thread"
-require "prequel/adapter"
-require "prequel/abstract_key_set"
-require "prequel/mapper"
-require "prequel/model"
-require "prequel/hash_proxy"
-require "prequel/adapters/file"
+require "norman/adapter"
+require "norman/abstract_key_set"
+require "norman/mapper"
+require "norman/model"
+require "norman/hash_proxy"
+require "norman/adapters/file"
 
-# Prequel is a database and ORM replacement for small, mostly static models.
+# Norman is a database and ORM replacement for small, mostly static models.
 #
-# Prequel is free software released under the terms of the MIT License.
+# Norman is free software released under the terms of the MIT License.
 # @author Norman Clarke
-module Prequel
+module Norman
   extend self
 
   @lock = Mutex.new
@@ -20,30 +20,30 @@ module Prequel
   attr_reader   :default_adapter_name
   @default_adapter_name = :main
 
-  # A hash of all instantiated Prequel adapters.
+  # A hash of all instantiated Norman adapters.
   attr_reader :adapters
   @adapters = {}
 
-  # Registers an adapter with Prequel. This facilitates allowing models to
+  # Registers an adapter with Norman. This facilitates allowing models to
   # specify an adapter by name rather than class or instance.
   #
   # @param [Symbol] adapter The adapter name.
-  # @see Prequel::Model::ClassMethods#use
+  # @see Norman::Model::ClassMethods#use
   def register_adapter(adapter)
     name = adapter.name.to_sym
     if adapters[name]
-      raise PrequelError, "Adapter #{name.inspect} already registered"
+      raise NormanError, "Adapter #{name.inspect} already registered"
     end
     @lock.synchronize do
       adapters[name] = adapter
     end
   end
 
-  # Base error for Prequel.
-  class PrequelError < StandardError ; end
+  # Base error for Norman.
+  class NormanError < StandardError ; end
 
   # Raised when a single instance is expected but could not be found.
-  class NotFoundError < PrequelError
+  class NotFoundError < NormanError
 
     # @param [String] klass The class from which the error originated.
     # @param [String] key The key whose lookup trigged the error.

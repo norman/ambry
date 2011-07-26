@@ -1,14 +1,14 @@
 # encoding: utf-8
 require File.expand_path("../spec_helper", __FILE__)
 
-classes = [Prequel::Adapters::File, Prequel::Adapters::YAML]
+classes = [Norman::Adapters::File, Norman::Adapters::YAML]
 
 classes.each do |klass|
 
   describe klass.to_s do
 
     before do
-      Prequel.adapters.clear
+      Norman.adapters.clear
       @path = File.expand_path("../file_adapter_test", __FILE__)
       @adapter = klass.new(:file => @path)
       @adapter.instance_variable_set :@db, {
@@ -20,7 +20,7 @@ classes.each do |klass|
     end
 
     after do
-      Prequel.adapters.clear
+      Norman.adapters.clear
       FileUtils.rm_f @path
     end
 

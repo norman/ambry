@@ -1,6 +1,6 @@
 require "yaml"
 
-module Prequel
+module Norman
   module Adapters
     # An Adapter that uses YAML for its storage.
     class YAML < File

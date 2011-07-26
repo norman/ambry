@@ -2,14 +2,14 @@ require "rubygems"
 require "bundler/setup"
 require "benchmark"
 require "ffaker"
-require "prequel"
+require "norman"
 
 N = 500
 
-Prequel::Adapter.new
+Norman::Adapter.new
 
 class Person
-  extend Prequel::Model
+  extend Norman::Model
   field :email, :name, :age
 
   def self.younger_than(age)

@@ -1,4 +1,4 @@
-module Prequel
+module Norman
   module Adapters
     # Loads and saves hash database from a Marshal.dump file.
     class File < Adapter

@@ -1,9 +1,9 @@
 require File.expand_path("../spec_helper", __FILE__)
 
-describe Prequel::Model do
+describe Norman::Model do
 
   before { load_fixtures }
-  after  { Prequel.adapters.clear }
+  after  { Norman.adapters.clear }
 
   describe "#initialize" do
 
@@ -78,7 +78,7 @@ describe Prequel::Model do
     end
 
     # This also provides an easy way to check if a model instance has been
-    # edited. However most of the time we don't need this because Prequel is
+    # edited. However most of the time we don't need this because Norman is
     # not intended for frequent writes.
     it "reads (second) from an attribute array" do
       p = Person.first

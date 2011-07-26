@@ -1,6 +1,6 @@
-# Prequel
+# Norman
 
-Prequel is a database and ORM replacement for small, mostly static models. Use
+Norman is a database and ORM replacement for small, mostly static models. Use
 it to replace database-persisted seed data and ad-hoc structures in your app or
 library with plain old Ruby objects that are searchable via a fast, simple
 database-like API.
@@ -9,16 +9,16 @@ It implements Active Model and has generators to integrate nicely with Rails.
 You can store your data in a file, a signed string suitable for storage in a
 cookie, or easily write your own IO adapter.
 
-For more info, take a peek at the [Prequel
-Guide](http://norman.github.com/prequel/file.Guide.html), or read on for some
+For more info, take a peek at the [Norman
+Guide](http://norman.github.com/norman/file.Guide.html), or read on for some
 quick samples.
 
 ## A quick tour
 
     # Create a model.
     class Country
-      # Turn any Ruby object into a Prequel model by extending this module.
-      extend Prequel::Model
+      # Turn any Ruby object into a Norman model by extending this module.
+      extend Norman::Model
 
       # The first field listed here will be the "primary key."
       field :tld, :name
@@ -55,11 +55,11 @@ quick samples.
 
 ## Installation
 
-    gem install prequel
+    gem install norman
 
 ## Compatibility
 
-Prequel has been tested against these current Rubies, and is likely compatible
+Norman has been tested against these current Rubies, and is likely compatible
 with others. Note that 1.8.6 is not supported.
 
 * Ruby 1.8.7 - 1.9.2
@@ -77,7 +77,7 @@ inspiration for the name.
 
 ## The name
 
-Why "Prequel?" Because for some models, before you try SQL, you should try
+Why "Norman?" Because for some models, before you try SQL, you should try
 this.  Also, because [Sequel](http://sequel.rubyforge.org/) is a fantastic
 library, and it inspired this library's use of Enumerable.
 

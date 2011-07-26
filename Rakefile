@@ -1,7 +1,7 @@
 require "rake"
 require "rake/testtask"
-require "rake/gempackagetask"
 require "rake/clean"
+require "rubygems/package_task"
 
 task :default => :spec
 task :test => :spec
@@ -17,9 +17,9 @@ begin
 rescue LoadError
 end
 
-gemspec = File.expand_path("../prequel.gemspec", __FILE__)
+gemspec = File.expand_path("../norman.gemspec", __FILE__)
 if File.exist? gemspec
-  Rake::GemPackageTask.new(eval(File.read(gemspec))) { |pkg| }
+  Gem::PackageTask.new(eval(File.read(gemspec))) { |pkg| }
 end
 
 Rake::TestTask.new(:spec) { |t| t.pattern = "spec/**/*_spec.rb" }

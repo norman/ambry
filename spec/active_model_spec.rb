@@ -1,9 +1,9 @@
 require File.expand_path("../spec_helper", __FILE__)
-require "prequel/active_model"
+require "norman/active_model"
 
 class Book
-  extend Prequel::Model
-  extend Prequel::ActiveModel
+  extend Norman::Model
+  extend Norman::ActiveModel
   field :slug, :title, :author
   validates_presence_of :slug
   validates_uniqueness_of :slug, :title
@@ -25,14 +25,14 @@ module ActiveModuleSupportSpecHelper
   end
 
   def load_fixtures
-    Prequel.adapters.clear
-    Prequel::Adapter.new :name => :main
+    Norman.adapters.clear
+    Norman::Adapter.new :name => :main
     Book.use :main
     @model = Book.create! valid_book
   end
 end
 
-describe Prequel::ActiveModel do
+describe Norman::ActiveModel do
 
   before { load_fixtures }
 
@@ -53,7 +53,7 @@ describe Prequel::ActiveModel do
 
   describe "#save!" do
     it "should raise an exception if the model is not valid" do
-      assert_raises Prequel::PrequelError do
+      assert_raises Norman::NormanError do
         Book.new.save!
       end
     end

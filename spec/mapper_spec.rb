@@ -3,31 +3,31 @@ require File.expand_path("../spec_helper", __FILE__)
 MockAdapter = Struct.new(:db)
 
 class Value
-  extend Prequel::Model
+  extend Norman::Model
   field :a
 end
 
-describe Prequel::Mapper do
+describe Norman::Mapper do
 
   describe "#initialize" do
 
     before do
-      Prequel.adapters.clear
-      @adapter = Prequel::Adapter.new
+      Norman.adapters.clear
+      @adapter = Norman::Adapter.new
     end
 
     after do
-      Prequel.adapters.clear
+      Norman.adapters.clear
     end
 
     it "should set default adapter name if unspecified" do
-      mapper = Prequel::Mapper.new "Class"
-      assert_equal Prequel.default_adapter_name, mapper.adapter_name
+      mapper = Norman::Mapper.new "Class"
+      assert_equal Norman.default_adapter_name, mapper.adapter_name
     end
 
     it "should set adapter name if unspecified" do
-      Prequel::Adapter.new :name => :hello
-      mapper = Prequel::Mapper.new "Class", :hello
+      Norman::Adapter.new :name => :hello
+      mapper = Norman::Mapper.new "Class", :hello
       assert_equal :hello, mapper.adapter_name
     end
   end
@@ -35,7 +35,7 @@ describe Prequel::Mapper do
   describe "hash operations" do
 
     before { load_fixtures }
-    after  { Prequel.adapters.clear }
+    after  { Norman.adapters.clear }
 
     describe "#hash" do
       it "should get a hash corresponding to the mapped class" do
@@ -49,7 +49,7 @@ describe Prequel::Mapper do
       end
 
       it "should raise NotFoundError if key doesn't exist" do
-        assert_raises Prequel::NotFoundError do
+        assert_raises Norman::NotFoundError do
           Person.mapper["BADKEY"]
         end
       end
@@ -79,9 +79,9 @@ describe Prequel::Mapper do
     end
 
     describe "#key_set" do
-      it "should return a Prequel::KeySet with all keys" do
+      it "should return a Norman::KeySet with all keys" do
         ks = Person.mapper.key_set
-        assert_kind_of Prequel::AbstractKeySet, ks
+        assert_kind_of Norman::AbstractKeySet, ks
         assert_equal Person.count, ks.count
       end
     end

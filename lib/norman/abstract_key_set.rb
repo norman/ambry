@@ -1,4 +1,4 @@
-module Prequel
+module Norman
 
   # @abstract
   class AbstractKeySet

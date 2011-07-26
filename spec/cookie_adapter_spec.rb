@@ -1,8 +1,8 @@
 require File.expand_path("../spec_helper", __FILE__)
-require "prequel/adapters/cookie"
+require "norman/adapters/cookie"
 
 class User
-  extend Prequel::Model
+  extend Norman::Model
   field :email, :name
 end
 
@@ -23,26 +23,26 @@ module CookieAdapterSpecHelpers
   end
 
   def load_fixtures
-    Prequel.adapters.clear
-    @adapter = Prequel::Adapters::Cookie.new \
+    Norman.adapters.clear
+    @adapter = Norman::Adapters::Cookie.new \
       :name   => :cookie,
       :secret => secret
     User.use :cookie, :sync => true
   end
 end
 
-describe Prequel::Adapters::Cookie do
+describe Norman::Adapters::Cookie do
 
   include CookieAdapterSpecHelpers
 
   before { load_fixtures }
-  after  { Prequel.adapters.clear }
+  after  { Norman.adapters.clear }
 
-  describe Prequel::Adapters::Cookie do
+  describe Norman::Adapters::Cookie do
 
     describe "#initialize" do
       it "should decode signed data if given" do
-        adapter = Prequel::Adapters::Cookie.new \
+        adapter = Norman::Adapters::Cookie.new \
           :secret => secret,
           :data   => sample_data
         assert_kind_of Hash, adapter.db["User"]
@@ -51,7 +51,7 @@ describe Prequel::Adapters::Cookie do
 
       it "should load properly with nil or blank data" do
         [nil, ""].each_with_index do |arg, index|
-          adapter = Prequel::Adapters::Cookie.new \
+          adapter = Norman::Adapters::Cookie.new \
             :secret => secret,
             :data   => arg,
             :name   => :"main_#{index}"
@@ -70,9 +70,9 @@ describe Prequel::Adapters::Cookie do
     end
 
     describe "#save_database" do
-      it "should raise a PrequelError if signed data exceeds max data length" do
-        Prequel::Adapters::Cookie.stubs(:max_data_length).returns(1)
-        assert_raises Prequel::PrequelError do
+      it "should raise a NormanError if signed data exceeds max data length" do
+        Norman::Adapters::Cookie.stubs(:max_data_length).returns(1)
+        assert_raises Norman::NormanError do
           User.create valid_user
         end
       end

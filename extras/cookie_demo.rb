@@ -6,17 +6,17 @@ require "sinatra"
 require "haml"
 require "babosa"
 require "date"
-require "prequel"
-require "prequel/adapters/cookie"
-require "rack/prequel"
+require "norman"
+require "norman/adapters/cookie"
+require "rack/norman"
 
 set :session, false
 
 use Rack::Cookies
-use Rack::Prequel, :name => :cookie, :secret => "Sssshhhh! This is a secret."
+use Rack::Norman, :name => :cookie, :secret => "Sssshhhh! This is a secret."
 
 class Book
-  extend Prequel::Model
+  extend Norman::Model
   field :slug, :title, :author
   use :cookie
 
@@ -65,7 +65,7 @@ __END__
 %html
   %head
     %meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
-    %title Prequel Cookie Adapter Demo
+    %title Norman Cookie Adapter Demo
   %body
     %h2= @header
     = yield

@@ -2,10 +2,10 @@ require "active_support"
 require "active_support/message_verifier"
 require "zlib"
 
-module Prequel
+module Norman
   module Adapters
 
-    # Prequel's cookie adapter allows you to store a Prequel database inside
+    # Norman's cookie adapter allows you to store a Norman database inside
     # a zipped and signed string suitable for setting as a cookie. This can be
     # useful for modelling things like basic shopping carts or form wizards.
     # Keep in mind the data is signed, so it can't be tampered with. However,
@@ -33,7 +33,7 @@ module Prequel
         cookie = verifier.generate(Zlib::Deflate.deflate(Marshal.dump(db)))
         length = cookie.bytesize
         if length > Cookie.max_data_length
-          raise(PrequelError, "Data is %s bytes, cannot exceed %s" % [length, Cookie.max_data_length])
+          raise(NormanError, "Data is %s bytes, cannot exceed %s" % [length, Cookie.max_data_length])
         end
         cookie
       end

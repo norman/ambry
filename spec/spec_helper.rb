@@ -4,15 +4,15 @@ if ENV["coverage"]
 end
 require "rubygems"
 require "bundler/setup"
-require "prequel"
-require "prequel/adapters/yaml"
+require "norman"
+require "norman/adapters/yaml"
 require 'minitest/spec'
 require "mocha"
 require "fileutils"
 require "ffaker"
 
 class Person
-  extend Prequel::Model
+  extend Norman::Model
   field :email, :name
 
   def self.stooges
@@ -29,9 +29,9 @@ class Person
 end
 
 def load_fixtures
-  Prequel.adapters.clear
+  Norman.adapters.clear
   file = File.expand_path("../fixtures.yml", __FILE__)
-  Prequel::Adapters::YAML.new :file => file
+  Norman::Adapters::YAML.new :file => file
   Person.use :main
 end
 

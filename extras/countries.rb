@@ -1,12 +1,12 @@
-# A demo of Prequel's filters
+# A demo of Norman's filters
 
 require "bundler/setup"
-require "prequel"
+require "norman"
 
-Prequel::Adapter.new
+Norman::Adapter.new
 
 class Country
-  extend Prequel::Model
+  extend Norman::Model
   field :tld, :name, :population, :region
 
   filters do
