@@ -9,8 +9,8 @@ It implements Active Model and has generators to integrate nicely with Rails.
 You can store your data in a file, a signed string suitable for storage in a
 cookie, or easily write your own IO adapter.
 
-For more info, take a peek at the [Norman
-Guide](http://norman.github.com/norman/file.Guide.html), or read on for some
+For more info, take a peek at the
+[Guide](http://norman.github.com/norman/file.Guide.html), or read on for some
 quick samples.
 
 ## A quick tour
@@ -62,9 +62,9 @@ quick samples.
 Norman has been tested against these current Rubies, and is likely compatible
 with others. Note that 1.8.6 is not supported.
 
-* Ruby 1.8.7 - 1.9.2
-* Rubinius 1.2.3
-* JRuby 1.5.6+
+* Ruby 1.8.7 - 1.9.3
+* Rubinius 1.2.x+
+* JRuby 1.5+
 
 ## Author
 
@@ -72,14 +72,12 @@ with others. Note that 1.8.6 is not supported.
 
 ## Contributors
 
-Many thanks to Adrián Mugnolo for code review, feedback and the
-inspiration for the name.
+Many thanks to Adrián Mugnolo for code review and feedback.
 
-## The name
+## Isn't is kinda weird to name a library after yourself?
 
-Why "Norman?" Because for some models, before you try SQL, you should try
-this.  Also, because [Sequel](http://sequel.rubyforge.org/) is a fantastic
-library, and it inspired this library's use of Enumerable.
+Yeah. I wanted to call this "Prequel" but it was taken. So was "Norm." If you
+have a good idea for a better name, let me know!
 
 ## License
 
