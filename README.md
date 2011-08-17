@@ -10,7 +10,7 @@ You can store your data in a file, a signed string suitable for storage in a
 cookie, or easily write your own IO adapter.
 
 For more info, take a peek at the
-[Guide](http://norman.github.com/norman/file.Guide.html), or read on for some
+[docs](http://rubydoc.info/github/norman/norman/master/frames), or read on for some
 quick samples.
 
 ## A quick tour
