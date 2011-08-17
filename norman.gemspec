@@ -4,7 +4,6 @@ Gem::Specification.new do |s|
   s.authors           = "Norman Clarke"
   s.email             = "norman@njclarke.com"
   s.files             = `git ls-files`.split("\n").reject {|f| f =~ /^\./}
-  s.has_rdoc          = true
   s.homepage          = "http://github.com/norman/norman"
   s.name              = "norman"
   s.platform          = Gem::Platform::RUBY
@@ -13,9 +12,9 @@ Gem::Specification.new do |s|
   s.test_files        = Dir.glob "test/**/*_test.rb"
   s.version           = Norman::Version::STRING
   s.description       = <<-EOD
-    Norman is a database and ORM replacement for (mostly) static models and
-    small datasets. It provides ActiveModel compatibility, and flexible
-    searching and storage.
+    Norman is not an ORM, man! It's a database and ORM replacement for (mostly)
+    static models and small datasets. It provides ActiveModel compatibility, and
+    flexible searching and storage.
   EOD
   s.add_development_dependency "ffaker"
   s.add_development_dependency "minitest", "~> 2.2.2"
