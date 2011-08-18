@@ -15,6 +15,9 @@ quick samples.
 
 ## A quick tour
 
+    # Initialize a default adapter.
+    Ambry::Adapter.new
+
     # Create a model.
     class Country
       # Turn any Ruby object into a Ambry model by extending this module.
