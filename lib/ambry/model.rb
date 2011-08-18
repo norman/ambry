@@ -89,6 +89,10 @@ module Ambry
           @mapper ||= Mapper.new(self, name, options)
         end
       end
+
+      def inspect
+        "#{name}(#{attribute_names * ', '})"
+      end
     end
 
     module InstanceMethods
@@ -158,6 +162,10 @@ module Ambry
       # Tell the mapper to delete the data for this instance.
       def delete
         self.class.delete(self.to_id)
+      end
+
+      def inspect
+        "#<#{self.class.name} #{self.class.attribute_names.map { |attr| "#{attr}: #{self.send(attr).inspect}" } * ', ' }>"
       end
     end
   end
