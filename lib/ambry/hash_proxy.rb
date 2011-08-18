@@ -1,4 +1,4 @@
-module Norman
+module Ambry
   # Wrapper around hash instances that allows values to be accessed as symbols,
   # strings or method invocations. It behaves similary to OpenStruct, with the
   # fundamental difference being that you instantiate *one* HashProxy instance

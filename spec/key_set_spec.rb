@@ -1,9 +1,9 @@
 require File.expand_path("../spec_helper", __FILE__)
 
-describe Norman::AbstractKeySet do
+describe Ambry::AbstractKeySet do
 
   before { load_fixtures }
-  after  { Norman.adapters.clear }
+  after  { Ambry.adapters.clear }
 
   describe "#+" do
     it "should add two key sets" do
@@ -56,7 +56,7 @@ describe Norman::AbstractKeySet do
   describe "#find" do
     it "should return a KeySet of matching keys when called with a block" do
       key_set = Person.find {|p| p.name =~ /Larry/}
-      assert_kind_of Norman::AbstractKeySet, key_set
+      assert_kind_of Ambry::AbstractKeySet, key_set
       assert_equal 1, key_set.size
     end
 
@@ -65,7 +65,7 @@ describe Norman::AbstractKeySet do
     end
 
     it "should yield an instance of HashProxy to the block" do
-      Person.find {|x| assert_kind_of Norman::HashProxy, x}
+      Person.find {|x| assert_kind_of Ambry::HashProxy, x}
     end
 
     it "should be chainable" do

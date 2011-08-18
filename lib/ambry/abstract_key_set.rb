@@ -1,4 +1,4 @@
-module Norman
+module Ambry
 
   # @abstract
   class AbstractKeySet

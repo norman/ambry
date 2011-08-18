@@ -1,4 +1,4 @@
-module Norman
+module Ambry
   module Version
     MAJOR  = 0
     MINOR  = 1

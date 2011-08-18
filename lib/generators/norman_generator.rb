@@ -4,19 +4,19 @@ require 'rails/generators/actions'
 # This generator adds an initializer and default empty database to your Rails
 # application. It can be invoked on the command line like:
 #
-#     rails generate norman
+#     rails generate ambry
 #
-class NormanGenerator < Rails::Generators::Base
+class AmbryGenerator < Rails::Generators::Base
 
   # Create the initializer and empty database.
   def create_files
-    initializer("norman.rb") do
+    initializer("ambry.rb") do
       <<-EOI
-require "norman/adapters/yaml"
-require "norman/active_model"
-Norman::Adapters::YAML.new :file => Rails.root.join('db', 'norman.yml')
+require "ambry/adapters/yaml"
+require "ambry/active_model"
+Ambry::Adapters::YAML.new :file => Rails.root.join('db', 'ambry.yml')
       EOI
     end
-    create_file("db/norman.yml", '')
+    create_file("db/ambry.yml", '')
   end
 end

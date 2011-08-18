@@ -6,17 +6,17 @@ require "sinatra"
 require "haml"
 require "babosa"
 require "date"
-require "norman"
-require "norman/adapters/cookie"
-require "rack/norman"
+require "ambry"
+require "ambry/adapters/cookie"
+require "rack/ambry"
 
 set :session, false
 
 use Rack::Cookies
-use Rack::Norman, :name => :cookie, :secret => "Sssshhhh! This is a secret."
+use Rack::Ambry, :name => :cookie, :secret => "Sssshhhh! This is a secret."
 
 class Book
-  extend Norman::Model
+  extend Ambry::Model
   field :slug, :title, :author
   use :cookie
 
@@ -65,7 +65,7 @@ __END__
 %html
   %head
     %meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
-    %title Norman Cookie Adapter Demo
+    %title Ambry Cookie Adapter Demo
   %body
     %h2= @header
     = yield

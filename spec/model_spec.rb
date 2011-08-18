@@ -1,9 +1,9 @@
 require File.expand_path("../spec_helper", __FILE__)
 
-describe Norman::Model do
+describe Ambry::Model do
 
   before { load_fixtures }
-  after  { Norman.adapters.clear }
+  after  { Ambry.adapters.clear }
 
   describe "#initialize" do
 
@@ -78,7 +78,7 @@ describe Norman::Model do
     end
 
     # This also provides an easy way to check if a model instance has been
-    # edited. However most of the time we don't need this because Norman is
+    # edited. However most of the time we don't need this because Ambry is
     # not intended for frequent writes.
     it "reads (second) from an attribute array" do
       p = Person.first

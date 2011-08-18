@@ -17,7 +17,7 @@ begin
 rescue LoadError
 end
 
-gemspec = File.expand_path("../norman.gemspec", __FILE__)
+gemspec = File.expand_path("../ambry.gemspec", __FILE__)
 if File.exist? gemspec
   Gem::PackageTask.new(eval(File.read(gemspec))) { |pkg| }
 end

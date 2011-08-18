@@ -1,11 +1,11 @@
-module Norman
+module Ambry
 
   module Model
     def self.extended(base)
       base.instance_eval do
         @lock            = Mutex.new
         @attribute_names = []
-        @key_class       = Class.new(Norman::AbstractKeySet)
+        @key_class       = Class.new(Ambry::AbstractKeySet)
         extend  ClassMethods
         include InstanceMethods
         include Comparable
@@ -62,7 +62,7 @@ module Norman
       #
       # The hash arg gets frozen, which can be a nasty side-effect, but helps
       # avoid hard-to-track-down bugs if the hash is updated somewhere outside
-      # the model. This should only be used internally to Norman, which is why
+      # the model. This should only be used internally to Ambry, which is why
       # it's private.
       def from_hash(hash)
         instance = allocate
@@ -84,7 +84,7 @@ module Norman
 
       def mapper
         @mapper or @lock.synchronize do
-          name      = @adapter_name || Norman.default_adapter_name
+          name      = @adapter_name || Ambry.default_adapter_name
           options   = @mapper_options || {}
           @mapper ||= Mapper.new(self, name, options)
         end
@@ -93,7 +93,7 @@ module Norman
 
     module InstanceMethods
 
-      # Norman models can be instantiated with a hash of attribures, a block,
+      # Ambry models can be instantiated with a hash of attribures, a block,
       # or both. If both a hash and block are given, then the values set inside
       # the block will take precedence over those set in the hash.
       #
@@ -114,7 +114,7 @@ module Norman
         yield self if block_given?
       end
 
-      # Norman models implement the <=> method and mix in Comparable to provide
+      # Ambry models implement the <=> method and mix in Comparable to provide
       # sorting methods. This default implementation compares the result of
       # #to_id. If the items being compared are not of the same kind.
       def <=>(instance)

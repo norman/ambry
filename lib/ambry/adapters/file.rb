@@ -1,4 +1,4 @@
-module Norman
+module Ambry
   module Adapters
     # Loads and saves hash database from a Marshal.dump file.
     class File < Adapter

@@ -1,6 +1,6 @@
 require "yaml"
 
-module Norman
+module Ambry
   module Adapters
     # An Adapter that uses YAML for its storage.
     class YAML < File

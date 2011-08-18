@@ -1,4 +1,4 @@
-module Norman
+module Ambry
 
   # Adapters are responsible for persisting the database. This base adapter
   # offers no persistence, all IO operations are just stubs. Adapters must also
@@ -10,11 +10,11 @@ module Norman
     attr_reader :name
     attr_reader :db
 
-    # @option options [String] :name The adapter name. Defaults to {#Norman.default_adapter_name}.
+    # @option options [String] :name The adapter name. Defaults to {#Ambry.default_adapter_name}.
     def initialize(options = {})
-      @name = options[:name] || Norman.default_adapter_name
+      @name = options[:name] || Ambry.default_adapter_name
       load_database
-      Norman.register_adapter(self)
+      Ambry.register_adapter(self)
     end
 
     # Get a hash of all the data for the specified model class.

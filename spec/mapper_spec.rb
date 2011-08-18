@@ -3,31 +3,31 @@ require File.expand_path("../spec_helper", __FILE__)
 MockAdapter = Struct.new(:db)
 
 class Value
-  extend Norman::Model
+  extend Ambry::Model
   field :a
 end
 
-describe Norman::Mapper do
+describe Ambry::Mapper do
 
   describe "#initialize" do
 
     before do
-      Norman.adapters.clear
-      @adapter = Norman::Adapter.new
+      Ambry.adapters.clear
+      @adapter = Ambry::Adapter.new
     end
 
     after do
-      Norman.adapters.clear
+      Ambry.adapters.clear
     end
 
     it "should set default adapter name if unspecified" do
-      mapper = Norman::Mapper.new "Class"
-      assert_equal Norman.default_adapter_name, mapper.adapter_name
+      mapper = Ambry::Mapper.new "Class"
+      assert_equal Ambry.default_adapter_name, mapper.adapter_name
     end
 
     it "should set adapter name if unspecified" do
-      Norman::Adapter.new :name => :hello
-      mapper = Norman::Mapper.new "Class", :hello
+      Ambry::Adapter.new :name => :hello
+      mapper = Ambry::Mapper.new "Class", :hello
       assert_equal :hello, mapper.adapter_name
     end
   end
@@ -35,7 +35,7 @@ describe Norman::Mapper do
   describe "hash operations" do
 
     before { load_fixtures }
-    after  { Norman.adapters.clear }
+    after  { Ambry.adapters.clear }
 
     describe "#hash" do
       it "should get a hash corresponding to the mapped class" do
@@ -49,7 +49,7 @@ describe Norman::Mapper do
       end
 
       it "should raise NotFoundError if key doesn't exist" do
-        assert_raises Norman::NotFoundError do
+        assert_raises Ambry::NotFoundError do
           Person.mapper["BADKEY"]
         end
       end
@@ -79,9 +79,9 @@ describe Norman::Mapper do
     end
 
     describe "#key_set" do
-      it "should return a Norman::KeySet with all keys" do
+      it "should return a Ambry::KeySet with all keys" do
         ks = Person.mapper.key_set
-        assert_kind_of Norman::AbstractKeySet, ks
+        assert_kind_of Ambry::AbstractKeySet, ks
         assert_equal Person.count, ks.count
       end
     end

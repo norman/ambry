@@ -2,14 +2,14 @@ require "rubygems"
 require "bundler/setup"
 require "benchmark"
 require "ffaker"
-require "norman"
+require "ambry"
 
 N = 500
 
-Norman::Adapter.new
+Ambry::Adapter.new
 
 class Person
-  extend Norman::Model
+  extend Ambry::Model
   field :email, :name, :age
 
   def self.younger_than(age)

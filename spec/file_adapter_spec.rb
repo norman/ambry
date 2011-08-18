@@ -1,14 +1,14 @@
 # encoding: utf-8
 require File.expand_path("../spec_helper", __FILE__)
 
-classes = [Norman::Adapters::File, Norman::Adapters::YAML]
+classes = [Ambry::Adapters::File, Ambry::Adapters::YAML]
 
 classes.each do |klass|
 
   describe klass.to_s do
 
     before do
-      Norman.adapters.clear
+      Ambry.adapters.clear
       @path = File.expand_path("../file_adapter_test", __FILE__)
       @adapter = klass.new(:file => @path)
       @adapter.instance_variable_set :@db, {
@@ -20,7 +20,7 @@ classes.each do |klass|
     end
 
     after do
-      Norman.adapters.clear
+      Ambry.adapters.clear
       FileUtils.rm_f @path
     end
 

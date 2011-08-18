@@ -1,9 +1,9 @@
 require File.expand_path("../spec_helper", __FILE__)
-require "norman/active_model"
+require "ambry/active_model"
 
 class Book
-  extend Norman::Model
-  extend Norman::ActiveModel
+  extend Ambry::Model
+  extend Ambry::ActiveModel
   field :slug, :title, :author
   validates_presence_of :slug
   validates_uniqueness_of :slug, :title
@@ -25,14 +25,14 @@ module ActiveModuleSupportSpecHelper
   end
 
   def load_fixtures
-    Norman.adapters.clear
-    Norman::Adapter.new :name => :main
+    Ambry.adapters.clear
+    Ambry::Adapter.new :name => :main
     Book.use :main
     @model = Book.create! valid_book
   end
 end
 
-describe Norman::ActiveModel do
+describe Ambry::ActiveModel do
 
   before { load_fixtures }
 
@@ -53,7 +53,7 @@ describe Norman::ActiveModel do
 
   describe "#save!" do
     it "should raise an exception if the model is not valid" do
-      assert_raises Norman::NormanError do
+      assert_raises Ambry::AmbryError do
         Book.new.save!
       end
     end

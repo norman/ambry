@@ -1,8 +1,8 @@
 require File.expand_path("../spec_helper", __FILE__)
-require "norman/adapters/cookie"
+require "ambry/adapters/cookie"
 
 class User
-  extend Norman::Model
+  extend Ambry::Model
   field :email, :name
 end
 
@@ -23,26 +23,26 @@ module CookieAdapterSpecHelpers
   end
 
   def load_fixtures
-    Norman.adapters.clear
-    @adapter = Norman::Adapters::Cookie.new \
+    Ambry.adapters.clear
+    @adapter = Ambry::Adapters::Cookie.new \
       :name   => :cookie,
       :secret => secret
     User.use :cookie, :sync => true
   end
 end
 
-describe Norman::Adapters::Cookie do
+describe Ambry::Adapters::Cookie do
 
   include CookieAdapterSpecHelpers
 
   before { load_fixtures }
-  after  { Norman.adapters.clear }
+  after  { Ambry.adapters.clear }
 
-  describe Norman::Adapters::Cookie do
+  describe Ambry::Adapters::Cookie do
 
     describe "#initialize" do
       it "should decode signed data if given" do
-        adapter = Norman::Adapters::Cookie.new \
+        adapter = Ambry::Adapters::Cookie.new \
           :secret => secret,
           :data   => sample_data
         assert_kind_of Hash, adapter.db["User"]
@@ -51,7 +51,7 @@ describe Norman::Adapters::Cookie do
 
       it "should load properly with nil or blank data" do
         [nil, ""].each_with_index do |arg, index|
-          adapter = Norman::Adapters::Cookie.new \
+          adapter = Ambry::Adapters::Cookie.new \
             :secret => secret,
             :data   => arg,
             :name   => :"main_#{index}"
@@ -70,9 +70,9 @@ describe Norman::Adapters::Cookie do
     end
 
     describe "#save_database" do
-      it "should raise a NormanError if signed data exceeds max data length" do
-        Norman::Adapters::Cookie.stubs(:max_data_length).returns(1)
-        assert_raises Norman::NormanError do
+      it "should raise a AmbryError if signed data exceeds max data length" do
+        Ambry::Adapters::Cookie.stubs(:max_data_length).returns(1)
+        assert_raises Ambry::AmbryError do
           User.create valid_user
         end
       end

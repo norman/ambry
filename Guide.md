@@ -1,10 +1,10 @@
-# The Norman Guide
+# The Ambry Guide
 
 By [Norman Clarke](http://njclarke.com)
 
-## What is Norman?
+## What is Ambry?
 
-Norman is a database and ORM alternative for small, mostly static models. Use
+Ambry is a database and ORM alternative for small, mostly static models. Use
 it to replace database-persisted seed data and ad-hoc structures in your app or
 library with plain old Ruby objects that are searchable via a fast, simple
 database-like API.
@@ -19,11 +19,11 @@ and/or static datasets. On the other hand, keeping it in ad-hoc strutures can
 offer little flexibility when it comes to filtering, or establishing searchable
 relations with other models.
 
-Norman offers a middle ground: it loads your dataset from a script or file,
+Ambry offers a middle ground: it loads your dataset from a script or file,
 keeps it in memory as a hash, and makes use of Ruby's Enumerable module to
 expose a powerful, ORM-like query interface to your data.
 
-But just one word of warning: Norman is not like Redis or Membase. It's not a
+But just one word of warning: Ambry is not like Redis or Membase. It's not a
 real database of any kind - SQL or NoSQL. Think of it as a "NoDB." Don't use it
 for more than a few megabytes of data: for that you'll want something like
 SQLite, Redis, Postgres, or whatever kind of database makes sense for your
@@ -31,39 +31,39 @@ needs.
 
 ## Creating Models
 
-Almost any Ruby class can be stored as a Norman Model, simply by extending
-the {#Norman::Model} module, and specifying which fields you want to store:
+Almost any Ruby class can be stored as a Ambry Model, simply by extending
+the {#Ambry::Model} module, and specifying which fields you want to store:
 
     class Person
-      extend Norman::Model
+      extend Ambry::Model
       field :email, :name
     end
 
-You can also extend the {Norman::ActiveModel} module to add an Active
+You can also extend the {Ambry::ActiveModel} module to add an Active
 Record/Rails compatible API. This will be discussed in more detail later.
 
 ### Setting up a simple model class
 
-As shown above, simply extend (**not** include) `Norman::Model` to create a
+As shown above, simply extend (**not** include) `Ambry::Model` to create a
 model class. In your class, you can add persistable/searchable fields using the
-{Norman::Model::ClassMethods#field field} method. This adds accessor methods,
+{Ambry::Model::ClassMethods#field field} method. This adds accessor methods,
 similar to those created by `attr_accessor`, but marks them for internal use by
-Norman.
+Ambry.
 
     class Person
-      extend Norman::Model
+      extend Ambry::Model
       field :email, :name, :birthday, :favorite_color
     end
 
-All NormanModels require at least one unique field to use as a hash key. By
+All AmbryModels require at least one unique field to use as a hash key. By
 convention, the first field you add will be used as the key; `:email` in the
-example above. You can also use the {Norman::Model::ClassMethods#id_field
+example above. You can also use the {Ambry::Model::ClassMethods#id_field
 id\_field} method to specify which field to use as the key.
 
 ### Basic operations on models
 
-New instances of Norman Models can be
-{Norman::Model::InstanceMethods#initialize initialized} with an optional hash
+New instances of Ambry Models can be
+{Ambry::Model::InstanceMethods#initialize initialized} with an optional hash
 of attributes, or a block.
 
     person = Person.new :name => "Moe"
@@ -83,16 +83,16 @@ accessor calls in the block take precedence:
     end
     p.name #=> "Moe"
 
-Norman exposes methods for model creation and storage which should look quite
+Ambry exposes methods for model creation and storage which should look quite
 familiar to anyone acquantied with ORM's, but the searching, indexing and
 filtering methods are a little different.
 
 #### CRUD
 
-{Norman::Model::ClassMethods#create Create},
-{Norman::AbstractKeySet#find Read},
-{Norman::Model::InstanceMethods#update Update},
-{Norman::Model::InstanceMethods#delete Delete}
+{Ambry::Model::ClassMethods#create Create},
+{Ambry::AbstractKeySet#find Read},
+{Ambry::Model::InstanceMethods#update Update},
+{Ambry::Model::InstanceMethods#delete Delete}
 methods are fairly standard:
 
     # create
@@ -113,14 +113,14 @@ methods are fairly standard:
 
 #### Searching
 
-Finds in Norman are performed using the `find` class method. If a single
-argument is passed, that is treated as a key and Norman looks for the matching
+Finds in Ambry are performed using the `find` class method. If a single
+argument is passed, that is treated as a key and Ambry looks for the matching
 record:
 
     Person.find "moe@3stooges" # returns instance of Person
-    Person.find "cdsafdfds"    # raises Norman::NotFoundError
+    Person.find "cdsafdfds"    # raises Ambry::NotFoundError
 
-If a block is passed, then Norman looks for records that return true for the
+If a block is passed, then Ambry looks for records that return true for the
 conditions in the block, and returns an iterator that you can use to step
 through the results:
 
@@ -131,7 +131,7 @@ through the results:
 
 There are two important things to note here. First, in the `find` block, it
 appears that an instance of person is yielded. However, this is actually an
-instance of {Norman::HashProxy}, which allows you to invoke model attributes
+instance of {Ambry::HashProxy}, which allows you to invoke model attributes
 either as symbols, strings, or methods. You could also have written the example
 these two ways:
 
@@ -141,7 +141,7 @@ these two ways:
 Second, the result of the find is not an array, but rather an enumerator that
 allows you to iterate over results while instantiating only the model objects
 that you use, in order to improve performance. This enumerator will be an
-instance of an anonymous subclass of {Norman::AbstractKeySet}.
+instance of an anonymous subclass of {Ambry::AbstractKeySet}.
 
 Models' `find` methods are actually implemented directly on key sets: when you
 do `Person.find` you're performing a find on a key set that includes all keys
@@ -166,10 +166,10 @@ Key sets can also be manipulated with set arithmetic functions:
     non_european_iberian_speaking = speak_an_iberian_language - european
 
 An important implementation detail is that the return value of `Person.find` is
-actually an instance of a subclass of {Norman::AbstractKeySet}. When you
-{Norman::Model.extended extend Norman::Model}, Norman creates
-{Norman::Model::ClassMethods#key_class an anonymous subclass} of
-Norman::AbstractKeySet, which facilitates customized finders on a per-model
+actually an instance of a subclass of {Ambry::AbstractKeySet}. When you
+{Ambry::Model.extended extend Ambry::Model}, Ambry creates
+{Ambry::Model::ClassMethods#key_class an anonymous subclass} of
+Ambry::AbstractKeySet, which facilitates customized finders on a per-model
 basis, such as the filters described below.
 
 #### Filters
@@ -178,11 +178,11 @@ Filters in Prequal are saved finds that can be chained together, conceptually
 similar to [Active Record
 scopes](http://api.rubyonrails.org/classes/ActiveRecord/NamedScope/ClassMethods.html#method-i-scope).
 
-You define them with the {Norman::Model::ClassMethods#filters filters} class
+You define them with the {Ambry::Model::ClassMethods#filters filters} class
 method:
 
     class Person
-      extend Norman::Model
+      extend Ambry::Model
       field :email, :gender, :city, :age
 
       filters do
@@ -208,12 +208,12 @@ chained:
 
 #### Relations
 
-Norman doesn't include any special methods for creating relations as in Active
+Ambry doesn't include any special methods for creating relations as in Active
 Record, because this can easily be accomplished by defining an instance method
 in your model:
 
     class Book
-      extend Norman::Model
+      extend Ambry::Model
       field :isbn, :title, :author_id, :genre, :year
 
       def author
@@ -232,7 +232,7 @@ in your model:
     end
 
     class Author
-      extend Norman::Model
+      extend Ambry::Model
       field :email, :name
 
       def books
@@ -242,7 +242,7 @@ in your model:
 
 Assuming for a moment that books can only have one author, the above example
 demonstrates how simple it is to set up `has_many` / `belongs_to` relationships
-in Norman. Since the results of these finds are key sets, you can also chain
+in Ambry. Since the results of these finds are key sets, you can also chain
 any filters you want with them too:
 
     Author.get("stevenking@writers.com").books.by_genre("horror").from_year(1975)
@@ -250,13 +250,13 @@ any filters you want with them too:
 
 #### Indexes
 
-If your dataset is on the larger side of what's suitable for Norman (a few
+If your dataset is on the larger side of what's suitable for Ambry (a few
 thousand records or so) then you can use wrap your search with the
-{Norman::Model::ClassMethods#with_index} method to memoize the results and
+{Ambry::Model::ClassMethods#with_index} method to memoize the results and
 improve the performance of frequently accessed queries:
 
     class Book
-      extend Norman::Model
+      extend Ambry::Model
       field :isbn, :title, :author_id, :genre, :year
 
       def self.horror
@@ -278,7 +278,7 @@ a good idea when indexing methods that take arguments:
 
 ### Active Model
 
-Norman implements Active Model: read more about it
+Ambry implements Active Model: read more about it
 [here](http://yehudakatz.com/2010/01/10/activemodel-make-any-ruby-object-feel-like-activerecord/).
 
 TODO: write me
@@ -291,27 +291,27 @@ TODO: write me
 
 TODO: write me
 
-#### Norman::Adapter
+#### Ambry::Adapter
 
 TODO: write me
 
-#### Norman::Adapters::File
+#### Ambry::Adapters::File
 
 TODO: write me
 
-#### Norman::Adapters::YAML
+#### Ambry::Adapters::YAML
 
 TODO: write me
 
-#### Norman::Adapters::SignedString
+#### Ambry::Adapters::SignedString
 
 TODO: write me
 
-## Extending Norman
+## Extending Ambry
 
 TODO: write me
 
-### Adding functionality to Norman::Model
+### Adding functionality to Ambry::Model
 
 TODO: write me
 

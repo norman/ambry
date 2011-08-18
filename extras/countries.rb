@@ -1,12 +1,12 @@
-# A demo of Norman's filters
+# A demo of Ambry's filters
 
 require "bundler/setup"
-require "norman"
+require "ambry"
 
-Norman::Adapter.new
+Ambry::Adapter.new
 
 class Country
-  extend Norman::Model
+  extend Ambry::Model
   field :tld, :name, :population, :region
 
   filters do
