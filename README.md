@@ -74,11 +74,6 @@ with others. Note that 1.8.6 is not supported.
 
 Many thanks to Adrián Mugnolo for code review and feedback.
 
-## Isn't is kinda weird to name a library after yourself?
-
-Yeah. I wanted to call this "Prequel" but it was taken. So was "Norm." If you
-have a good idea for a better name, let me know!
-
 ## License
 
 Copyright (c) 2011 Norman Clarke
