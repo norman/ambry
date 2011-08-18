@@ -43,6 +43,16 @@ describe Ambry::AbstractKeySet do
     end
   end
 
+  describe "#last" do
+    it "should return the last matching instance when called with a block" do
+      assert_equal "Curly Howard", Person.last {|p| p.name =~ /Howard/}.name
+    end
+
+    it "should return the last instance when not called with a block" do
+      assert_kind_of Person, Person.last
+    end
+  end
+
   describe "#count" do
     it "should count matching instances when called with a block" do
       assert_equal 3, Person.count {|p| p.name =~ /Howard/}

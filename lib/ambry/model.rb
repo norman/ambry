@@ -17,7 +17,7 @@ module Ambry
       attr_accessor :attribute_names, :id_method, :mapper
       attr_reader :key_class
       def_delegators(*[:find, Enumerable.public_instance_methods(false)].flatten)
-      def_delegators(:mapper, :[], :all, :delete, :first, :get, :count, :find, :find_by_key, :keys)
+      def_delegators(:mapper, :[], :all, :delete, :first, :last, :get, :count, :find, :find_by_key, :keys)
       alias id_field id_method=
 
       def field(*names)
