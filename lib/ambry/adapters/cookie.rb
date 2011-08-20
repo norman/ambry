@@ -39,7 +39,7 @@ module Ambry
       end
 
       def import_data
-        data.blank? ? {} : Marshal.load(Zlib::Inflate.inflate(verifier.verify(data)))
+        (!data || data.empty?) ? {} : Marshal.load(Zlib::Inflate.inflate(verifier.verify(data)))
       end
 
       def load_database

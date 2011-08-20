@@ -14,7 +14,7 @@ module Ambry
 
       def load_database
         @db = import_data
-        @db.blank? ? @db = {} : @db.map(&:freeze)
+        (!@db || @db.empty?) ? @db = {} : @db.map(&:freeze)
       rescue Errno::ENOENT
         # @TODO warn via logger when file doesn't exist
         @db = {}

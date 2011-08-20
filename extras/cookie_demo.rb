@@ -54,8 +54,8 @@ get "/books/:slug" do |slug|
 end
 
 post "/books" do
-  Book.delete params[:slug] unless params[:slug].blank?
-  @book = Book.create params unless params[:title].blank?
+  Book.delete params[:slug] if params[:slug]
+  @book = Book.create params if params[:title]
   redirect "/"
 end
 
