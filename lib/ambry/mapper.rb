@@ -51,7 +51,7 @@ module Ambry
 
     # Get an instance by key
     def get(key)
-      klass.send :from_hash, self[key]
+      klass.send :from_hash, self[key].merge(klass.id_method => key)
     end
 
     def key_set
