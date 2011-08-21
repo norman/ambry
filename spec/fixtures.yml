@@ -2,16 +2,12 @@
 Person:
   moe@3stooges.com:
       :name: Moe Howard
-      :email: moe@3stooges.com
   shemp@3stooges.com:
       :name: Shemp Howard
-      :email: shemp@3stooges.com
   curly@3stooges.com:
       :name: Curly Howard
-      :email: curly@3stooges.com
   larry@3stooges.com:
       :name: Larry Fine
-      :email: larry@3stooges.com
 "MyModule::Animal":
   Canis Familaris:
     :species: Canis Familaris
