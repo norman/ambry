@@ -8,7 +8,7 @@ module Ambry
 
     # Allows accessing a hash attribute as a method.
     def method_missing(symbol)
-      hash[symbol] or raise NoMethodError
+      hash[symbol] or hash[symbol.to_s] or raise NoMethodError
     end
 
     # Allows accessing a hash attribute as hash key, either a string or symbol.

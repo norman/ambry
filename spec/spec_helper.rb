@@ -23,7 +23,7 @@ class Person
 
   filters do
     def non_howards
-      find {|p| p[:name] !~ /Howard/}
+      find {|p| p.name !~ /Howard/}
     end
   end
 end

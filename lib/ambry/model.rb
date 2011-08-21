@@ -65,6 +65,7 @@ module Ambry
       # the model. This should only be used internally to Ambry, which is why
       # it's private.
       def from_hash(hash)
+        hash.keys.inject(hash) {|hash, key| hash[key.to_sym] = hash.delete(key); hash}
         instance = allocate
         instance.instance_variable_set :@attributes, hash.freeze
         instance
