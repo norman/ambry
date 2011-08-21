@@ -27,7 +27,7 @@ module Ambry
           attribute_names << name.to_sym
           class_eval(<<-EOM, __FILE__, __LINE__ + 1)
             def #{name}
-              @#{name} or (@attributes[:#{name}] if @attributes)
+              @#{name} or (@attributes[:#{name}] || @attributes['#{name}'] if @attributes)
             end
 
             def #{name}=(value)
