@@ -25,6 +25,10 @@ class Person
     def non_howards
       find {|p| p.name !~ /Howard/}
     end
+
+    def alphabetical
+      sort_by {|p| p.name}
+    end
   end
 end
 
