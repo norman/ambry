@@ -35,21 +35,21 @@ describe Ambry::AbstractKeySet do
 
   describe "#first" do
     it "should return the first matching instance when called with a block" do
-      assert_equal "Curly Howard", Person.first {|p| p.name =~ /Curly/}.name
+      assert_equal "Curly Howard", Person.alphabetical.first {|p| p.name =~ /Curly/}.name
     end
 
     it "should return the first instance when not called with a block" do
-      assert_kind_of Person, Person.first
+      assert_kind_of Person, Person.alphabetical.first
     end
   end
 
   describe "#last" do
     it "should return the last matching instance when called with a block" do
-      assert_equal "Curly Howard", Person.last {|p| p.name =~ /Howard/}.name
+      assert_equal "Shemp Howard", Person.alphabetical.last {|p| p.name =~ /Howard/}.name
     end
 
     it "should return the last instance when not called with a block" do
-      assert_kind_of Person, Person.last
+      assert_kind_of Person, Person.alphabetical.last
     end
   end
 
