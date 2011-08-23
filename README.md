@@ -35,6 +35,10 @@ quick samples.
         def in_region(region)
           find {|c| c.region == region)
         end
+
+        def alphabetical
+          sort_by {|c| c.name}
+        end
       end
 
       # Root filter, can be used to setup relations.
@@ -54,6 +58,9 @@ quick samples.
     # Do some searches
     big_asian_countries         = Country.big.in_region(:asia)
     countries_that_start_with_c = Country.find {|c| c.name =~ /^C/}
+    # #first and #last only make sense if you run Ruby 1.9 (creation order) or explicitly specified an order
+    first_alphabetical          = Country.alphabetical.first
+    last_alphabetical           = Country.alphabetical.last
 
 
 ## Installation
