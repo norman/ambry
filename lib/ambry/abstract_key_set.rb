@@ -41,6 +41,12 @@ module Ambry
       block_given? ? all.detect(&block) : all.first
     end
 
+    # With no block, returns an instance for the first key. If a block is given,
+    # it returns the first instance yielding a true value.
+    def last(&block)
+      block_given? ? all.reverse.detect(&block) : all.last
+    end
+
     # With no block, returns the number of keys. If a block is given, counts the
     # number of elements yielding a true value.
     def count(&block)
@@ -97,6 +103,14 @@ module Ambry
     def initialize(keys, &callable)
       @keys     = keys
       @callable = callable
+    end
+
+    def reverse
+      KeyIterator.new(keys.reverse, &callable)
+    end
+
+    def last
+      callable.call keys.last
     end
 
     def each(&block)
