@@ -17,7 +17,7 @@ module Ambry
       attr_accessor :attribute_names, :id_method, :mapper
       attr_reader :key_class
       def_delegators(*[:find, Enumerable.public_instance_methods(false)].flatten)
-      def_delegators(:mapper, :[], :all, :delete, :first, :get, :count, :find, :find_by_key, :keys)
+      def_delegators(:mapper, :[], :all, :delete, :first, :last, :get, :count, :find, :find_by_key, :keys)
       alias id_field id_method=
 
       def field(*names)
@@ -89,6 +89,10 @@ module Ambry
           @mapper ||= Mapper.new(self, name, options)
         end
       end
+
+      def inspect
+        "#{name}(#{attribute_names * ', '})"
+      end
     end
 
     module InstanceMethods
@@ -158,6 +162,10 @@ module Ambry
       # Tell the mapper to delete the data for this instance.
       def delete
         self.class.delete(self.to_id)
+      end
+
+      def inspect
+        "#<#{self.class.name} #{self.class.attribute_names.map { |attr| "#{attr}: #{self.send(attr).inspect}" } * ', ' }>"
       end
     end
   end

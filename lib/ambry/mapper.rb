@@ -8,7 +8,7 @@ module Ambry
     attr :hash
     attr_accessor :adapter_name, :klass, :indexes, :options
     def_delegators :hash, :clear, :delete
-    def_delegators :key_set, :all, :count, :find, :find_by_key, :first, :keys
+    def_delegators :key_set, :all, :count, :find, :find_by_key, :first, :last, :keys
 
     def initialize(klass, adapter_name = nil, options = {})
       @klass        = klass
