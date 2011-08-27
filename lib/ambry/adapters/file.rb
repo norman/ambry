@@ -25,12 +25,13 @@ module Ambry
       end
 
       def import_data
-        Marshal.load(::File.read(file_path))
+        data = ::File.open(file_path, "rb") { |f| f.read }
+        Marshal.load(data)
       end
 
       def save_database
         @lock.synchronize do
-          ::File.open(file_path, "w") {|f| f.write(export_data)}
+          ::File.open(file_path, "wb") {|f| f.write(export_data)}
         end
       end
     end
