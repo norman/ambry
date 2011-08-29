@@ -35,6 +35,14 @@ classes.each do |klass|
         assert @adapter.save_database
         assert File.exists? @path
       end
+
+      it "should raise an AmbryError if it's read-only" do
+        @adapter.read_only = true
+        assert_raises Ambry::AmbryError do
+          @adapter.save_database
+        end
+      end
+
     end
 
     describe "#load_database" do

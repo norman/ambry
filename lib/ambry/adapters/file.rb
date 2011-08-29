@@ -8,6 +8,7 @@ module Ambry
 
       def initialize(options)
         @file_path = options[:file]
+        @read_only  = !! options[:read_only]
         @lock      = Mutex.new
         super
       end
@@ -30,6 +31,7 @@ module Ambry
       end
 
       def save_database
+        super
         @lock.synchronize do
           ::File.open(file_path, "wb") {|f| f.write(export_data)}
         end

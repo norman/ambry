@@ -9,10 +9,12 @@ module Ambry
 
     attr_reader :name
     attr_reader :db
+    attr_accessor :read_only
 
     # @option options [String] :name The adapter name. Defaults to {#Ambry.default_adapter_name}.
     def initialize(options = {})
-      @name = options[:name] || Ambry.default_adapter_name
+      @name      = options[:name] || Ambry.default_adapter_name
+      @read_only = false
       load_database
       Ambry.register_adapter(self)
     end
@@ -44,9 +46,16 @@ module Ambry
       true
     end
 
+    # Is the adapter read only? If so, attempts to write data will raise an
+    # AmbryError.
+    def read_only?
+      @read_only
+    end
+
     # Inheriting adapters can overload this method to persist the data to some
     # kind of storage.
     def save_database
+      raise AmbryError if read_only?
       true
     end
   end
