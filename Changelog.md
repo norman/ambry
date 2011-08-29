@@ -1,5 +1,16 @@
 # Ambry Changelog
 
+## [0.1.2](https://github.com/norman/ambry/tree/0.1.1) - 2001-08-29 ([diff](https://github.com/norman/ambry/compare/0.1.1...0.1.2))
+
+### [Norman Clarke](https://github.com/norman)
+
+* Add read-only option to adapters
+
+### [Luis Lavena](https://github.com/luislavena)
+
+* Load Marshal data as binary
+
+
 ## [0.1.1](https://github.com/norman/ambry/tree/0.1.1) - 2011-08-24 ([diff](https://github.com/norman/ambry/compare/0.1.0...0.1.1))
 
 ### [Esad Hajdarevic](https://github.com/esad)
