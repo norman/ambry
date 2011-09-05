@@ -52,3 +52,5 @@ module Ambry
     end
   end
 end
+
+Ambry::Adapter.new
