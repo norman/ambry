@@ -6,8 +6,6 @@ require "ambry"
 
 N = 500
 
-Ambry::Adapter.new
-
 class Person
   extend Ambry::Model
   field :email, :name, :age
