@@ -1,5 +1,11 @@
 # Ambry Changelog
 
+## [0.2.0](https://github.com/norman/ambry/tree/0.2.0) - 2001-09-05 ([diff](https://github.com/norman/ambry/compare/0.1.2...0.2.0))
+
+### [Norman Clarke](https://github.com/norman)
+
+* Always create a default in-memory adapter
+
 ## [0.1.2](https://github.com/norman/ambry/tree/0.1.1) - 2001-08-29 ([diff](https://github.com/norman/ambry/compare/0.1.1...0.1.2))
 
 ### [Norman Clarke](https://github.com/norman)
