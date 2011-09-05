@@ -15,9 +15,6 @@ quick samples.
 
 ## A quick tour
 
-    # Initialize a default adapter.
-    Ambry::Adapter.new
-
     # Create a model.
     class Country
       # Turn any Ruby object into a Ambry model by extending this module.
@@ -70,7 +67,7 @@ quick samples.
 ## Compatibility
 
 Ambry has been tested against these current Rubies, and is likely compatible
-with others. Note that 1.8.6 is not supported.
+with others.
 
 * Ruby 1.8.7 - 1.9.3
 * Rubinius 1.2.x+
@@ -78,11 +75,9 @@ with others. Note that 1.8.6 is not supported.
 
 ## Author
 
-  [Norman Clarke](mailto:norman@njclarke.com)
+[Norman Clarke](mailto:norman@njclarke.com)
 
-## Contributors
-
-Many thanks to Adrián Mugnolo for code review and feedback.
+Many thanks to Adrián Mugnolo for initial code review and feedback.
 
 ## License
 
