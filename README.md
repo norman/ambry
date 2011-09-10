@@ -59,6 +59,14 @@ quick samples.
     first_alphabetical          = Country.alphabetical.first
     last_alphabetical           = Country.alphabetical.last
 
+## When should I use Ambry?
+
+Ambry can be useful for refactoring code with large hash constants and long case
+statements. Sometimes it's hard to figure out where code ends and data begins,
+but if your code looks like it could be simplified significantly by putting some
+things in a data store, yet it's not enough data to justify something like
+SQLite, then Ambry could be a good fit.
+
 
 ## Installation
 
