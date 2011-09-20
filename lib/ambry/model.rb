@@ -27,7 +27,7 @@ module Ambry
           attribute_names << name.to_sym
           class_eval(<<-EOM, __FILE__, __LINE__ + 1)
             def #{name}
-              @#{name} or (@attributes[:#{name}] || @attributes['#{name}'] if @attributes)
+              defined?(@#{name}) ? @#{name} : @attributes[:#{name}]
             end
 
             def #{name}=(value)
@@ -152,9 +152,10 @@ module Ambry
 
       # Update this instance's attributes and invoke #save.
       def update(attributes)
-        self.class.attribute_names.each do |name|
-          value = attributes[name] || attributes[name.to_s]
-          send("#{name}=", value) if value
+        HashProxy.with(attributes) do |proxy|
+          self.class.attribute_names.each do |name|
+            send("#{name}=", proxy[name]) if proxy.key?(name)
+          end
         end
         save
       end

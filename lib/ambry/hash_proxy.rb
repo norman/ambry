@@ -6,14 +6,25 @@ module Ambry
   class HashProxy
     attr :hash
 
+    def self.with(hash, &block)
+      new.with(hash, &block)
+    end
+
     # Allows accessing a hash attribute as a method.
     def method_missing(symbol)
       hash[symbol] or hash[symbol.to_s] or raise NoMethodError
     end
 
     # Allows accessing a hash attribute as hash key, either a string or symbol.
-    def [](value)
-      hash[value || value.to_sym || value.to_s]
+    def [](key)
+      if hash.key?(key)           then hash[key]
+      elsif hash.key?(key.to_sym) then hash[key.to_sym]
+      elsif hash.key?(key.to_s)   then hash[key.to_s]
+      end
+    end
+
+    def key?(key)
+      hash.key?(key) or hash.key?(key.to_sym) or hash.key?(key.to_s)
     end
 
     # Remove the hash.
