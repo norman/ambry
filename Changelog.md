@@ -1,5 +1,12 @@
 # Ambry Changelog
 
+## [0.2.1](https://github.com/norman/ambry/tree/0.2.1) - 2001-09-20 ([diff](https://github.com/norman/ambry/compare/0.2.0...0.2.1))
+
+### [Norman Clarke](https://github.com/norman)
+
+* Fix handling of attributes with falsy values
+
+
 ## [0.2.0](https://github.com/norman/ambry/tree/0.2.0) - 2001-09-05 ([diff](https://github.com/norman/ambry/compare/0.1.2...0.2.0))
 
 ### [Norman Clarke](https://github.com/norman)
