@@ -114,8 +114,8 @@ module Ambry
         run_callbacks(:destroy) { delete }
       end
 
-      def update_attributes
-        run_callbacks(:save) { update }
+      def update_attributes(*args)
+        run_callbacks(:save) { update(*args) }
       end
     end
   end
