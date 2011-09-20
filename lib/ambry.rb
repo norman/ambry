@@ -39,6 +39,16 @@ module Ambry
     end
   end
 
+  # Removes an adapter from Ambry.
+  #
+  # @param [Symbol] adapter The adapter name.
+  def remove_adapter(name)
+    @lock.synchronize do
+      adapters[name] = nil
+      adapters.delete name
+    end
+  end
+
   # Base error for Ambry.
   class AmbryError < StandardError ; end
 
