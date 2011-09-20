@@ -150,6 +150,12 @@ describe Ambry::Model do
       assert_equal count, Person.count
     end
 
+    it "should allow false as an update value (regression)" do
+      p = Person.get("moe@3stooges.com")
+      p.update(:name => false)
+      assert_equal false, p.name
+    end
+
   end
 
   describe "#save" do
