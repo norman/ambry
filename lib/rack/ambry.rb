@@ -7,6 +7,7 @@ module Rack
   class Ambry
     def initialize(app, options = {})
       @app     = app
+      options = options.call if options.respond_to? :call
       @ambry = ::Ambry::Adapters::Cookie.new(options.merge(:sync => true))
     end
 
