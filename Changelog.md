@@ -1,5 +1,13 @@
 # Ambry Changelog
 
+## [0.2.2](https://github.com/norman/ambry/tree/0.2.2) - 2001-09-20 ([diff](https://github.com/norman/ambry/compare/0.2.1...0.2.2))
+
+### [Norman Clarke](https://github.com/norman)
+
+* Allow middleware to accept a Proc
+* Add ability to remove an adapter
+
+
 ## [0.2.1](https://github.com/norman/ambry/tree/0.2.1) - 2001-09-20 ([diff](https://github.com/norman/ambry/compare/0.2.0...0.2.1))
 
 ### [Norman Clarke](https://github.com/norman)
