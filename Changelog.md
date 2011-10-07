@@ -1,6 +1,17 @@
 # Ambry Changelog
 
-## [0.2.2](https://github.com/norman/ambry/tree/0.2.2) - 2001-09-21 ([diff](https://github.com/norman/ambry/compare/0.2.1...0.2.2))
+## [0.2.3](https://github.com/norman/ambry/tree/0.2.3) - 2011-10-07 ([diff](https://github.com/norman/ambry/compare/0.2.2...0.2.3))
+
+### [Norman Clarke](https://github.com/norman)
+
+* Make cookie adapter's cookie name configurable
+
+### [Norman Clarke](https://github.com/norman)
+
+* Allow middleware to accept a Proc
+* Add ability to remove an adapter
+
+## [0.2.2](https://github.com/norman/ambry/tree/0.2.2) - 2011-09-21 ([diff](https://github.com/norman/ambry/compare/0.2.1...0.2.2))
 
 ### [Norman Clarke](https://github.com/norman)
 
@@ -8,20 +19,20 @@
 * Add ability to remove an adapter
 
 
-## [0.2.1](https://github.com/norman/ambry/tree/0.2.1) - 2001-09-20 ([diff](https://github.com/norman/ambry/compare/0.2.0...0.2.1))
+## [0.2.1](https://github.com/norman/ambry/tree/0.2.1) - 2011-09-20 ([diff](https://github.com/norman/ambry/compare/0.2.0...0.2.1))
 
 ### [Norman Clarke](https://github.com/norman)
 
 * Fix handling of attributes with falsy values
 
 
-## [0.2.0](https://github.com/norman/ambry/tree/0.2.0) - 2001-09-05 ([diff](https://github.com/norman/ambry/compare/0.1.2...0.2.0))
+## [0.2.0](https://github.com/norman/ambry/tree/0.2.0) - 2011-09-05 ([diff](https://github.com/norman/ambry/compare/0.1.2...0.2.0))
 
 ### [Norman Clarke](https://github.com/norman)
 
 * Always create a default in-memory adapter
 
-## [0.1.2](https://github.com/norman/ambry/tree/0.1.1) - 2001-08-29 ([diff](https://github.com/norman/ambry/compare/0.1.1...0.1.2))
+## [0.1.2](https://github.com/norman/ambry/tree/0.1.1) - 2011-08-29 ([diff](https://github.com/norman/ambry/compare/0.1.1...0.1.2))
 
 ### [Norman Clarke](https://github.com/norman)
 
