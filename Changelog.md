@@ -1,5 +1,11 @@
 # Ambry Changelog
 
+## [0.2.4](https://github.com/norman/ambry/tree/0.2.3) - 2011-10-07 ([diff](https://github.com/norman/ambry/compare/0.2.3...0.2.4))
+
+### [Norman Clarke](https://github.com/norman)
+
+* Add #key? to mappers and models
+
 ## [0.2.3](https://github.com/norman/ambry/tree/0.2.3) - 2011-10-07 ([diff](https://github.com/norman/ambry/compare/0.2.2...0.2.3))
 
 ### [Norman Clarke](https://github.com/norman)
