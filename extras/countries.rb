@@ -3,8 +3,6 @@
 require "bundler/setup"
 require "ambry"
 
-Ambry::Adapter.new
-
 class Country
   extend Ambry::Model
   field :tld, :name, :population, :region
