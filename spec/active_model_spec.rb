@@ -59,6 +59,24 @@ describe Ambry::ActiveModel do
     end
   end
 
+  describe "#create" do
+    it "should not store invalid model instances" do
+      old_count = Book.count
+      Book.create({})
+      assert_equal old_count, Book.count
+    end
+  end
+
+  describe "#save" do
+    it "should not store invalid model instances" do
+      old_count = Book.count
+      book = Book.new
+      assert !book.valid?
+      book.save
+      assert_equal old_count, Book.count
+    end
+  end
+
   describe "#to_json" do
     it "should serialize" do
       json = @model.to_json
