@@ -5,7 +5,7 @@
 ### [Norman Clarke](https://github.com/norman)
 
 * Remove cookie adapter; keep Ambry focused on its core mission.
-
+* Fixed bug which allowed invalid records to be saved with Active Model. Thanks Tute Costa for reporting.
 
 ## [0.2.4](https://github.com/norman/ambry/tree/0.2.4) - 2011-10-07 ([diff](https://github.com/norman/ambry/compare/0.2.3...0.2.4))
 

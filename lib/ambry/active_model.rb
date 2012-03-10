@@ -49,6 +49,14 @@ module Ambry
         new(*args).save!
       end
 
+      # Create and save a model instance, returning false if any errors
+      # occur.
+      def create(*args)
+        new(*args).save!
+      rescue AmbryError
+        false
+      end
+
       # Validate the uniqueness of a field's value in a model instance.
       def validates_uniqueness_of(*attr_names)
         validates_with Validations::Uniqueness, _merge_attributes(attr_names)
@@ -88,6 +96,7 @@ module Ambry
       end
 
       def save
+        return false unless valid?
         run_callbacks(:save) do
           @new_record = false
           super

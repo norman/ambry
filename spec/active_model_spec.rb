@@ -104,7 +104,9 @@ describe Ambry::ActiveModel do
 
   describe "callbacks" do
     it "should fire save callbacks" do
+      Book.mapper.clear
       book = Book.new valid_book
+      assert book.valid?
       book.save
       assert book.instance_variable_defined? :@save_callback_fired
     end
