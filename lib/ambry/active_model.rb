@@ -117,6 +117,10 @@ module Ambry
       def update_attributes(*args)
         run_callbacks(:save) { update(*args) }
       end
+
+      def to_partial_path
+        "#{self.class.name.pluralize.underscore}/#{self.class.name.underscore}"
+      end
     end
   end
 end

@@ -112,4 +112,11 @@ describe Ambry::ActiveModel do
       assert @book.valid?
     end
   end
+
+  describe "to_partial_path" do
+    it "should return something reasonable" do
+      assert_equal "books/book", Book.new.to_partial_path
+    end
+  end
+
 end
