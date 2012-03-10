@@ -1,8 +1,8 @@
 module Ambry
   module Version
     MAJOR  = 0
-    MINOR  = 2
-    TINY   = 4
+    MINOR  = 3
+    TINY   = 0
     BUILD  = nil
     STRING = [MAJOR, MINOR, TINY, BUILD].compact.join('.')
   end

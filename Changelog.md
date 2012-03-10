@@ -1,6 +1,13 @@
 # Ambry Changelog
 
-## [0.2.4](https://github.com/norman/ambry/tree/0.2.3) - 2011-10-07 ([diff](https://github.com/norman/ambry/compare/0.2.3...0.2.4))
+## [0.3.0](https://github.com/norman/ambry/tree/0.3.0) - NOT RELEASED ([diff](https://github.com/norman/ambry/compare/0.2.4...0.3.0))
+
+### [Norman Clarke](https://github.com/norman)
+
+* Remove cookie adapter; keep Ambry focused on its core mission.
+
+
+## [0.2.4](https://github.com/norman/ambry/tree/0.2.4) - 2011-10-07 ([diff](https://github.com/norman/ambry/compare/0.2.3...0.2.4))
 
 ### [Norman Clarke](https://github.com/norman)
 

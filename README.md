@@ -6,8 +6,7 @@ library with plain old Ruby objects that are searchable via a fast, simple
 database-like API.
 
 It implements Active Model and has generators to integrate nicely with Rails.
-You can store your data in a file, a signed string suitable for storage in a
-cookie, or easily write your own IO adapter.
+You can store your data in either YAML or dump file.
 
 For more info, take a peek at the
 [docs](http://rubydoc.info/github/ambry/ambry/master/frames), or read on for some
