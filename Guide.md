@@ -174,7 +174,7 @@ basis, such as the filters described below.
 
 #### Filters
 
-Filters in Prequal are saved finds that can be chained together, conceptually
+Filters in Ambry are saved finds that can be chained together, conceptually
 similar to [Active Record
 scopes](http://api.rubyonrails.org/classes/ActiveRecord/NamedScope/ClassMethods.html#method-i-scope).
 
