@@ -9,7 +9,7 @@ It implements Active Model and has generators to integrate nicely with Rails.
 You can store your data in either YAML or dump file.
 
 For more info, take a peek at the
-[docs](http://rubydoc.info/github/ambry/ambry/master/frames), or read on for some
+[docs](http://rubydoc.info/github/norman/ambry/frames), or read on for some
 quick samples.
 
 ## A quick tour
