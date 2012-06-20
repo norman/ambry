@@ -14,6 +14,7 @@ class AmbryGenerator < Rails::Generators::Base
       <<-EOI
 require "ambry/adapters/yaml"
 require "ambry/active_model"
+Ambry.remove_adapter :main
 Ambry::Adapters::YAML.new :file => Rails.root.join('db', 'ambry.yml')
       EOI
     end
