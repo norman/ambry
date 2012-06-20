@@ -1,5 +1,12 @@
 # Ambry Changelog
 
+## [0.3.1](https://github.com/norman/ambry/tree/0.3.1) - 2012-06-20 ([diff](https://github.com/norman/ambry/compare/0.3.0...0.3.1))
+
+### [Norman Clarke](https://github.com/norman)
+
+* Remove default :main adapter in Rail initializer.
+
+
 ## [0.3.0](https://github.com/norman/ambry/tree/0.3.0) - 2012-03-15 ([diff](https://github.com/norman/ambry/compare/0.2.4...0.3.0))
 
 ### [Norman Clarke](https://github.com/norman)
