@@ -14,49 +14,51 @@ quick samples.
 
 ## A quick tour
 
-    # Create a model.
-    class Country
-      # Turn any Ruby object into a Ambry model by extending this module.
-      extend Ambry::Model
+```ruby
+# Create a model.
+class Country
+  # Turn any Ruby object into a Ambry model by extending this module.
+  extend Ambry::Model
 
-      # The first field listed here will be the "primary key."
-      field :tld, :name
+  # The first field listed here will be the "primary key."
+  field :tld, :name
 
-      # Chainable filters, sort of like Active Record scopes.
-      filters do
-        def big
-          find {|c| c.population > 100_000_000}
-        end
-
-        def in_region(region)
-          find {|c| c.region == region)
-        end
-
-        def alphabetical
-          sort_by {|c| c.name}
-        end
-      end
-
-      # Root filter, can be used to setup relations.
-      def regions
-        Region.find {|r| r.id == region}
-      end
-
+  # Chainable filters, sort of like Active Record scopes.
+  filters do
+    def big
+      find {|c| c.population > 100_000_000}
     end
 
-    # create some contries
-    Country.create :tld => "AR", :name => "Argentina", :region => :america, :population => 40_000_000
-    Country.create :tld => "CA", :name => "Canada",    :region => :america, :population => 34_000_000
-    Country.create :tld => "JP", :name => "Japan",     :region => :asia,    :population => 127_000_000
-    Country.create :tld => "CN", :name => "China",     :region => :asia,    :population => 1_300_000_000
-    # etc.
+    def in_region(region)
+      find {|c| c.region == region)
+    end
 
-    # Do some searches
-    big_asian_countries         = Country.big.in_region(:asia)
-    countries_that_start_with_c = Country.find {|c| c.name =~ /^C/}
-    # #first and #last only make sense if you run Ruby 1.9 (creation order) or explicitly specified an order
-    first_alphabetical          = Country.alphabetical.first
-    last_alphabetical           = Country.alphabetical.last
+    def alphabetical
+      sort_by {|c| c.name}
+    end
+  end
+
+  # Root filter, can be used to setup relations.
+  def regions
+    Region.find {|r| r.id == region}
+  end
+
+end
+
+# create some contries
+Country.create :tld => "AR", :name => "Argentina", :region => :america, :population => 40_000_000
+Country.create :tld => "CA", :name => "Canada",    :region => :america, :population => 34_000_000
+Country.create :tld => "JP", :name => "Japan",     :region => :asia,    :population => 127_000_000
+Country.create :tld => "CN", :name => "China",     :region => :asia,    :population => 1_300_000_000
+# etc.
+
+# Do some searches
+big_asian_countries         = Country.big.in_region(:asia)
+countries_that_start_with_c = Country.find {|c| c.name =~ /^C/}
+# #first and #last only make sense if you run Ruby 1.9 (creation order) or explicitly specified an order
+first_alphabetical          = Country.alphabetical.first
+last_alphabetical           = Country.alphabetical.last
+```
 
 ## When should I use Ambry?
 
