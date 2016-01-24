@@ -1,4 +1,5 @@
 require "active_model"
+require "active_model-serializers"
 
 module Ambry
   # Extend this module if you want {Active Model}[http://github.com/rails/rails/tree/master/activemodel]
