@@ -21,5 +21,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "mocha"
   s.add_development_dependency "activesupport", "~> 3.0"
   s.add_development_dependency "activemodel", "~> 3.0"
+  s.add_development_dependency "activemodel-serializers-xml"
   s.add_development_dependency "rake"
 end
