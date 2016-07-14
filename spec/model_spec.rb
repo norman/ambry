@@ -1,7 +1,6 @@
 require File.expand_path("../spec_helper", __FILE__)
 
 describe Ambry::Model do
-
   before { load_fixtures }
   after  { Ambry.adapters.clear }
 
@@ -34,14 +33,21 @@ describe Ambry::Model do
 
     # This means your custom accessors will be invoked.
     it "invokes attr writers" do
-      Person.any_instance.expects(:name=).once
-      Person.new(:name => "joe")
+      class Person
+        def name=(val); @name = "doe"; end
+      end
+      p = Person.new(:name => "joe")
+      class Person
+        def name=(val); @name = val; end
+      end
+
+      assert_equal "doe", p.name
     end
 
     # Don't loop through params that potentially came from the Internet,
     # because we need to cast keys to Symbol, and that could leak memory.
     it "iterates over attribute names, not params" do
-      Person.attribute_names.expects(:each)
+      assert_send([Person.attribute_names, :each])
       Person.new(:name => "joe")
     end
   end
@@ -161,7 +167,7 @@ describe Ambry::Model do
   describe "#save" do
     it "passes itself to Mapper#put" do
       p = Person.new(:name => "hello")
-      Person.mapper.expects(:put)
+      assert_send([Person.mapper, :put, p])
       p.save
     end
   end
