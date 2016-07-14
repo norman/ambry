@@ -81,7 +81,7 @@ describe Ambry::ActiveModel do
     it "should serialize" do
       json = @model.to_json
       refute_nil @model.to_json
-      assert_match /"author":"Leo Tolstoy"/, json
+      assert_match(/"author":"Leo Tolstoy"/, json)
     end
   end
 

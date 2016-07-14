@@ -23,8 +23,8 @@ describe Ambry::Model do
     end
 
     it "calls the block after setting sttributes" do
-      p = Person.new(:name => "foo") {|p| p.name = "bar"}
-      assert_equal "bar", p.name
+      person = Person.new(:name => "foo") {|p| p.name = "bar"}
+      assert_equal "bar", person.name
     end
 
     it "can set attributes from a hash" do

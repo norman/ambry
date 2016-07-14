@@ -33,7 +33,7 @@ classes.each do |klass|
     describe "#save_database" do
       it "should write the data to disk" do
         assert @adapter.save_database
-        assert File.exists? @path
+        assert File.exist? @path
       end
 
       it "should raise an AmbryError if it's read-only" do

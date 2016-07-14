@@ -39,4 +39,4 @@ def load_fixtures
   Person.use :main
 end
 
-MiniTest::Unit.autorun
+MiniTest.autorun
