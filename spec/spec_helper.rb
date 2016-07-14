@@ -7,7 +7,6 @@ require "bundler/setup"
 require "ambry"
 require "ambry/adapters/yaml"
 require 'minitest/spec'
-require "mocha"
 require "fileutils"
 require "ffaker"
 
