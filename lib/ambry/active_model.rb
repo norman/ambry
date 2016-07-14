@@ -14,7 +14,6 @@ module Ambry
         extend  ::ActiveModel::Translation
         include ::ActiveModel::Validations
         include ::ActiveModel::Serializers::JSON
-        include ::ActiveModel::Serializers::Xml
         extend  ::ActiveModel::Callbacks
         define_model_callbacks :save, :destroy
       end

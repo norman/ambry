@@ -85,14 +85,6 @@ describe Ambry::ActiveModel do
     end
   end
 
-  describe "#to_xml" do
-    it "should serialize to XML" do
-      xml = @model.to_xml
-      refute_nil xml
-      assert_match /<author>Leo Tolstoy<\/author>/, xml
-    end
-  end
-
   describe "#valid?" do
     it "should do validation" do
       book = Book.new
