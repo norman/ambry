@@ -1,5 +1,10 @@
 # Ambry Changelog
 
+## [1.0.0](https://github.com/norman/ambry/tree/1.0.0) - 2016-07-22 ([diff](https://github.com/norman/ambry/compare/0.3.1...1.0.0))
+
+* Make ambry compatible with Rails 5
+* Drop `ActiveModel::Serializers::Xml` support
+
 ## [0.3.1](https://github.com/norman/ambry/tree/0.3.1) - 2012-06-20 ([diff](https://github.com/norman/ambry/compare/0.3.0...0.3.1))
 
 ### [Norman Clarke](https://github.com/norman)
