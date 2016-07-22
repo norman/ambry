@@ -7,7 +7,6 @@ require "bundler/setup"
 require "ambry"
 require "ambry/adapters/yaml"
 require 'minitest/spec'
-require "mocha"
 require "fileutils"
 require "ffaker"
 
@@ -39,4 +38,4 @@ def load_fixtures
   Person.use :main
 end
 
-MiniTest::Unit.autorun
+MiniTest.autorun

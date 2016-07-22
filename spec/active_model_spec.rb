@@ -81,15 +81,7 @@ describe Ambry::ActiveModel do
     it "should serialize" do
       json = @model.to_json
       refute_nil @model.to_json
-      assert_match /"author":"Leo Tolstoy"/, json
-    end
-  end
-
-  describe "#to_xml" do
-    it "should serialize to XML" do
-      xml = @model.to_xml
-      refute_nil xml
-      assert_match /<author>Leo Tolstoy<\/author>/, xml
+      assert_match(/"author":"Leo Tolstoy"/, json)
     end
   end
 

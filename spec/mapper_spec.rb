@@ -62,12 +62,12 @@ describe Ambry::Mapper do
       end
 
       it "should set value#to_hash as value for key" do
-        value = Person.mapper[:bogus] = Value.new(:a => "b")
+        Person.mapper[:bogus] = Value.new(:a => "b")
         assert_equal "b", Person.mapper[:bogus][:a]
       end
 
       it "should freeze the value" do
-        value = Person.mapper[:bogus] = Value.new(:a => "b")
+        Person.mapper[:bogus] = Value.new(:a => "b")
         assert Person.mapper[:bogus].frozen?
       end
     end

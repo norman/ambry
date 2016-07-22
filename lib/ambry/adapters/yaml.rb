@@ -6,7 +6,7 @@ module Ambry
     class YAML < File
 
       def import_data
-        data = ::YAML.load(::File.read(file_path))
+        ::YAML.load(::File.read(file_path))
       end
 
       def export_data

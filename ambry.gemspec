@@ -17,9 +17,8 @@ Gem::Specification.new do |s|
     flexible searching and storage.
   EOD
   s.add_development_dependency "ffaker"
-  s.add_development_dependency "minitest", "~> 2.2.2"
-  s.add_development_dependency "mocha"
-  s.add_development_dependency "activesupport", "~> 3.0"
-  s.add_development_dependency "activemodel", "~> 3.0"
+  s.add_development_dependency "minitest", "~> 5.1"
+  s.add_development_dependency "activesupport", "~> 5.0"
+  s.add_development_dependency "activemodel", "~> 5.0"
   s.add_development_dependency "rake"
 end
