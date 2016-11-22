@@ -6,7 +6,8 @@ class Book
   extend Ambry::ActiveModel
   field :slug, :title, :author
   validates_presence_of :slug
-  validates_uniqueness_of :slug, :title
+  validates :slug, :uniqueness => true
+  validates_uniqueness_of :title
   before_save :save_callback_fired
   before_destroy :destroy_callback_fired
 

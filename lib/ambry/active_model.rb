@@ -1,4 +1,5 @@
 require "active_model"
+require "ambry/validators/uniqueness"
 
 module Ambry
   # Extend this module if you want {Active Model}[http://github.com/rails/rails/tree/master/activemodel]
@@ -19,28 +20,6 @@ module Ambry
       end
     end
 
-    # Custom validations.
-    module Validations
-      # A uniqueness validator, similar to the one provided by Active Record.
-      class Uniqueness< ::ActiveModel::EachValidator
-        def validate_each(record, attribute, value)
-          return if record.persisted?
-          if attribute.to_sym == record.class.id_method
-            begin
-              if record.class.mapper[value]
-                record.errors[attribute] << "must be unique"
-              end
-            rescue Ambry::NotFoundError
-            end
-          else
-            if record.class.all.detect {|x| x.send(attribute) == value}
-              record.errors[attribute] << "must be unique"
-            end
-          end
-        end
-      end
-    end
-
     module ClassMethods
       # Create and save a model instance, raising an exception if any errors
       # occur.
@@ -58,7 +37,7 @@ module Ambry
 
       # Validate the uniqueness of a field's value in a model instance.
       def validates_uniqueness_of(*attr_names)
-        validates_with Validations::Uniqueness, _merge_attributes(attr_names)
+        validates_with ::ActiveModel::Validations::UniquenessValidator, _merge_attributes(attr_names)
       end
 
       def model_name
