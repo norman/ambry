@@ -24,6 +24,16 @@ classes.each do |klass|
       FileUtils.rm_f @path
     end
 
+    describe "name" do
+      it "should be set" do
+        @adapter.name.wont_be_nil
+      end
+
+      it "should not clash with default adapter name" do
+        @adapter.name.wont_equal :main
+      end
+    end
+
     describe "#export_data" do
       it "should be a string" do
         assert_kind_of String, @adapter.export_data
