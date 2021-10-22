@@ -27,15 +27,19 @@ module Ambry
           return if record.persisted?
           if attribute.to_sym == record.class.id_method
             begin
-              if record.class.mapper[value]
-                record.errors[attribute] << "must be unique"
-              end
+              add_to_errors(record, attribute) if record.class.mapper[value]
             rescue Ambry::NotFoundError
             end
           else
-            if record.class.all.detect {|x| x.send(attribute) == value}
-              record.errors[attribute] << "must be unique"
-            end
+            add_to_errors(record, attribute) if record.class.all.detect {|x| x.send(attribute) == value}
+          end
+        end
+
+        def add_to_errors(record, attribute)
+          if Rails.version.to_f >= 6.1
+            record.errors.add(attribute, message: "must be unique")
+          else
+            record.errors[attribute] << "must be unique"
           end
         end
       end
